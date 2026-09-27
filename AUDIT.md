@@ -297,38 +297,4 @@ Actual metrics recorded on `https://luxfocuss.vercel.app/`:
 * **2. Why it matters**: Semantic markup provides assistive technologies and search bots with structural context.
 * **3. Recommended solution**: Replace card containers with `<article>` and specification grids with description lists `<dl>`.
 
----
 
-## 5. Prioritized Action Plan
-
-To systematically resolve these findings during the hiring test implementation, the following execution order is established:
-
-```mermaid
-graph TD
-    A[Phase 1: Critical Fixes] --> B[Phase 2: Core Functional Tasks]
-    B --> C[Phase 3: Polish & Optimization]
-    
-    subgraph "Phase 1: Immediate Blockers"
-        A1[1.1 Fix Checkout Product Parameter Forwarding]
-        A2[1.3 Replace Banglish Draft Copy with English]
-        A3[1.5 Fix Hero View Performance Link]
-    end
-    
-    subgraph "Phase 2: Test Requirements"
-        B1[Task 04: Implement Contact System & Form]
-        B2[Task 05: Build Admin Inquiry Management UI]
-        B3[Task 06: Create Prisma Contact Schema]
-        B4[Task 07: Protect Admin Routes with Auth Guard]
-    end
-    
-    subgraph "Phase 3: Performance & SEO"
-        C1[3.1 Increase Text Contrast for 100 Accessibility]
-        C2[4.1 Add Dynamic generateMetadata to Products]
-        C3[4.2 Add sitemap.ts and robots.ts]
-        C4[1.6 Build Mobile Navigation Drawer]
-    end
-```
-
-1. **Step 1 (UI/UX Flow & Copy)**: Correct the hero link target, dynamically forward product slugs to checkout, and rewrite the informal Banglish sections in `/strategy` and `/course`.
-2. **Step 2 (Tasks 04–07 Backend & Admin)**: Implement the requested Contact inquiry API, database schema, admin review table, and route authentication guard.
-3. **Step 3 (SEO & Accessibility)**: Generate `sitemap.ts`, `robots.ts`, dynamic metadata, and adjust low-contrast text colors to achieve **100/100 across all Lighthouse categories**.
