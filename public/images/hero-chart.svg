@@ -1,0 +1,32 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#061018"/>
+  <g opacity="0.28">
+    <path d="M0 120H1200" stroke="#94A3B8"/>
+    <path d="M0 240H1200" stroke="#94A3B8"/>
+    <path d="M0 360H1200" stroke="#94A3B8"/>
+    <path d="M0 480H1200" stroke="#94A3B8"/>
+    <path d="M0 600H1200" stroke="#94A3B8"/>
+    <path d="M0 720H1200" stroke="#94A3B8"/>
+    <path d="M150 0V800" stroke="#94A3B8"/>
+    <path d="M350 0V800" stroke="#94A3B8"/>
+    <path d="M550 0V800" stroke="#94A3B8"/>
+    <path d="M750 0V800" stroke="#94A3B8"/>
+    <path d="M950 0V800" stroke="#94A3B8"/>
+  </g>
+  <path d="M0 580C80 520 120 560 200 510C240 480 300 390 350 400C400 410 430 500 470 500C530 500 520 330 590 310C650 290 700 420 760 420C840 420 860 230 920 210C990 190 1040 260 1200 150V800H0V580Z" fill="url(#paint0_linear_190_2)" fill-opacity="0.3"/>
+  <path d="M0 570C80 510 120 550 200 500C240 470 300 380 350 390C400 400 430 490 470 490C530 490 520 320 590 300C650 280 700 410 760 410C840 410 860 220 920 200C990 180 1040 250 1200 140" stroke="#34D399" stroke-width="6" stroke-linecap="round"/>
+  <path d="M310 160L420 270L550 240L690 320L785 200L940 260L1060 180" stroke="#F8FAFC" stroke-opacity="0.7" stroke-width="3" stroke-dasharray="10 10"/>
+  <circle cx="420" cy="270" r="10" fill="#34D399"/>
+  <circle cx="690" cy="320" r="10" fill="#FBBF24"/>
+  <circle cx="940" cy="260" r="10" fill="#22D3EE"/>
+  <rect x="740" y="80" width="300" height="140" rx="18" fill="#0C1821" stroke="#34D399" stroke-opacity="0.25"/>
+  <text x="780" y="128" fill="#9CA3AF" font-size="18" font-family="Arial">XAUUSD</text>
+  <text x="780" y="170" fill="#F8FAFC" font-size="40" font-family="Arial" font-weight="700">BUY</text>
+  <text x="780" y="200" fill="#34D399" font-size="18" font-family="Arial">Entry 2,345.21</text>
+  <defs>
+    <linearGradient id="paint0_linear_190_2" x1="600" y1="140" x2="600" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34D399"/>
+      <stop offset="1" stop-color="#34D399" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
