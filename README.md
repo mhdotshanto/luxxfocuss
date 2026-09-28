@@ -22,9 +22,9 @@ The initial prototype implemented desktop navigation using unmanaged HTML `<deta
 
 #### 2. Solution Implemented
 * **Modular Reusable Primitive**: Created a standalone `<Dropdown />` component configured with typed items, titles, subtitles, and custom widths.
-* **Outside-Click Detection**: Attached a global `mousedown` listener to detect clicks outside the component's `useRef` boundary, automatically closing the menu.
+* **Outside-Click & Scroll Detection**: Attached global `mousedown` and passive `scroll` listeners to auto-dismiss menus on background clicks or page scrolling.
 * **Keyboard Accessibility (WCAG AA)**: Added `Escape` key listeners to dismiss menus and included ARIA attributes (`aria-expanded`, `aria-haspopup="true"`, `role="menu"`).
-* **Route Transition Auto-Dismiss**: Subscribed to Next.js `usePathname()` to ensure menus cleanly close upon navigation.
+* **Route Transition & Active State Tracking**: Automatically closes upon route transitions via `usePathname()`, and highlights active items and parent triggers with emerald indicators.
 * **Pixel-Perfect Theme Match**: Preserved 100% of the existing dark obsidian styling (`#0b1118`), neon emerald highlights (`#10b981`), borders (`border-white/10`), shadows, and typography.
 
 ---

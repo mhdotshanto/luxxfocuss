@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Dropdown, type DropdownItem } from "@/components/dropdown";
 
 const productsNav: DropdownItem[] = [
@@ -25,6 +28,8 @@ const companyNav: DropdownItem[] = [
 ];
 
 export function SiteHeader() {
+  const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#070b11]/90 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 py-2.5 sm:gap-6 sm:px-6 lg:px-8 lg:py-3">
@@ -39,13 +44,27 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center gap-1 text-sm text-slate-300 lg:flex">
-          <Link href="/" className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white">
+          <Link
+            href="/"
+            className={`rounded-xl px-3 py-2 transition ${
+              pathname === "/"
+                ? "bg-white/10 font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                : "hover:bg-white/5 hover:text-white"
+            }`}
+          >
             Home
           </Link>
 
           <Dropdown label="Products" items={productsNav} widthClass="w-72" />
 
-          <Link href="/bundles" className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white">
+          <Link
+            href="/bundles"
+            className={`rounded-xl px-3 py-2 transition ${
+              pathname === "/bundles"
+                ? "bg-white/10 font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                : "hover:bg-white/5 hover:text-white"
+            }`}
+          >
             Bundles
           </Link>
 
