@@ -155,24 +155,81 @@ The Next.js App Router structure was organized into an isolated route-group arch
 
 ---
 
+## 🔒 Assessment Task 07 — Authentication & Security Architecture
+
+The administrative portal and backoffice surfaces of Luxfocuss are secured through an enterprise-grade authentication system built on **NextAuth.js v5 Beta (Auth.js)**, a dedicated **Prisma `Admin` Table**, **Server Actions**, **React Hook Form + Zod**, and **Edge Route Protection (`proxy.ts`)**.
+
+### 1. Architectural Highlights
+
+1. **Dedicated `Admin` Table & Role-Based Access Control (RBAC)**:
+   * **Physical Database Separation**: Administrators reside in an isolated `Admin` database table, completely decoupled from customer/trader `User` accounts.
+   * **Role Hierarchy**: Structured using an `AdminRole` enum (`SUPER_ADMIN` vs `ADMIN`).
+   * **Zero Public Admin Registration**: Admin accounts cannot be registered publicly via open forms; they are securely provisioned through idempotent database seeding ([`prisma/seed.ts`](./prisma/seed.ts)) using environment configurations (`SUPER_ADMIN_EMAIL`, `SUPER_ADMIN_PASSWORD`).
+
+2. **Edge Route Protection via `proxy.ts`**:
+   * All `/admin/*` routes are guarded at the Edge using NextAuth v5 middleware in [`src/proxy.ts`](./src/proxy.ts).
+   * Unauthenticated or non-admin requests attempting to visit `/admin` are immediately intercepted and redirected to `/admin/login` with deep-link callback preservation (`?callbackUrl=...`).
+   * Authenticated admins visiting `/admin/login` are automatically bounced to `/admin`.
+   * Stale, suspended, or revoked sessions are evicted via the dedicated force-logout route handler [`src/app/api/admin/force-logout/route.ts`](./src/app/api/admin/force-logout/route.ts).
+
+3. **Why Server Actions Were Chosen Over Traditional REST APIs**:
+   | Architectural Factor | Next.js Server Actions (`'use server'`) | Traditional REST API Routes (`/api/...`) |
+   | :--- | :--- | :--- |
+   | **End-to-End Type Safety** | **100% Compile-Time**: Single TypeScript types inferred directly from shared Zod schema across client & server. | **Fragmented**: Requires duplicate client request wrappers, manual serialization, and separate response interfaces. |
+   | **Boilerplate & Plumbing** | **Zero Fetch Boilerplate**: Executed like native async functions without manual `fetch()`, URL builders, or status checkers. | **High Boilerplate**: Requires writing, maintaining, and error-handling manual `fetch()` calls. |
+   | **CSRF & Transport Security** | **Built-in Protection**: Next.js automatically validates server action tokens and origin headers to block Cross-Site Request Forgery. | **Manual Configuration**: Requires custom CSRF tokens, custom headers, and CORS policy management. |
+   | **React 19 State Integration** | **Native Hooks**: Integrates seamlessly with `useTransition`, `isSubmitting`, and optimistic UI updates without extra state machines. | Requires complex `useState` / `useEffect` / `AbortController` boilerplate for loading and cancellation. |
+   | **Colocation & RPC Efficiency** | **Direct DB Execution**: Runs directly on the server runtime with direct access to Prisma and secure environment secrets. | Incurs HTTP serialization overhead and additional routing layers. |
+
+4. **Precision Form Validation & Error Mapping Standards**:
+   * **Single Source of Truth**: Defined a single reusable Zod schema in [`src/lib/validations/auth.ts`](./src/lib/validations/auth.ts) executed on both the client (via `@hookform/resolvers/zod`) and the server (via `adminLoginSchema.safeParse()`).
+   * **Field-Specific Server Error Mapping**: Server validation failures return field-level error maps that are mapped directly to input controls using React Hook Form's `setError(field, ...)` and displayed directly beneath the specific offending field.
+   * **Top-Level Alert Banner**: General authentication failures (e.g. invalid credentials or suspended accounts) render in a prominent top alert banner.
+   * **Zero Information Leakage**: Database schema internals, Prisma constraint errors, and cryptographic stack traces are never exposed to the client.
+
+5. **Enhanced Admin UI & Interactive Password Visibility Toggle**:
+   * Centered dark terminal sign-in interface at [`src/app/admin/(auth)/login/page.tsx`](./src/app/admin/(auth)/login/page.tsx) with ambient gradient lighting.
+   * Accessible Password Show/Hide toggle button with `Eye` / `EyeOff` icons from `lucide-react`.
+   * Dedicated backoffice shell at [`src/app/admin/(default)/layout.tsx`](./src/app/admin/(default)/layout.tsx) with live system status, admin email, `SUPER_ADMIN` badge, and one-click Sign Out action.
+
+---
+
+### 2. Production Deployment & Database Seed Protocol
+
+To seed the initial Super Administrator in production environments (Vercel, Docker, VPS, Render):
+```bash
+# Generate Prisma Client, sync schema, seed Super Admin, and build
+pnpm prisma generate
+pnpm prisma db push
+pnpm prisma db seed
+pnpm next build
+```
+* The seed script ([`prisma/seed.ts`](./prisma/seed.ts)) uses `prisma.admin.upsert`, making it **100% idempotent**—it is safe to execute on every production deployment without duplicating accounts or corrupting active credentials.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 18.18+ or 20+
-- npm, pnpm, or bun
+- pnpm (recommended) or npm
 
 ### Local Development
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
-# Run Prisma code generation
-npx prisma generate
+# Generate Prisma client and sync database
+pnpm prisma generate
+pnpm prisma db push
+
+# Seed initial Super Admin and marketplace products
+pnpm prisma db seed
 
 # Start development server
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to explore the platform.
@@ -180,8 +237,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to explore
 ### Production Build
 
 ```bash
-npm run build
-npm start
+pnpm run build
+pnpm start
 ```
 
 ---
@@ -191,4 +248,6 @@ npm start
 - **Framework**: Next.js 16.3.5 (App Router with React 19)
 - **Styling**: Tailwind CSS v4
 - **Database & ORM**: Prisma ORM with SQLite (dev) / PostgreSQL (prod)
-- **Auth**: Secure session cookies with native Node.js crypto
+- **Authentication & Security**: NextAuth.js v5 Beta (`auth.js`) with JWT sessions, Bcrypt password hashing, and Edge `proxy.ts` route protection
+- **Forms & Validation**: React Hook Form with Zod schemas and Server Actions
+- **Package Manager**: pnpm
