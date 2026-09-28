@@ -12,7 +12,6 @@ Luxfocuss is a direct-to-consumer (D2C) marketplace and software licensing platf
 * **Components Created / Modified**:
   * [`src/components/dropdown.tsx`](./src/components/dropdown.tsx) *(New Reusable Dropdown Primitive)*
   * [`src/components/site-header.tsx`](./src/components/site-header.tsx) *(Refactored to consume Dropdown)*
-  * [`src/app/layout.tsx`](./src/app/layout.tsx) *(Type safety & build fix)*
 
 #### 1. Problem Identified
 The initial prototype implemented desktop navigation using unmanaged HTML `<details>` and `<summary>` elements. Because native `<details>` lacks event listeners for clicks outside its bounding box:
