@@ -60,12 +60,16 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle,_rgba(16,185,129,0.25),transparent_60%)] blur-2xl pointer-events-none" />
               <div className="relative overflow-hidden rounded-[1.5rem] border border-emerald-400/20 bg-[#0b1118]/90 p-3 shadow-[0_40px_80px_rgba(0,0,0,0.7)] sm:rounded-[2rem] sm:p-4">
-                <div className="mb-4 flex items-start justify-between gap-3 border-b border-white/10 pb-4">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-slate-400">Illustrative setup</div>
-                    <div className="mt-1 text-lg font-semibold text-white sm:text-xl">XAUUSD Setup</div>
+                <div className="mb-4 flex items-center justify-between gap-2 border-b border-white/10 pb-3 sm:pb-4">
+                  <div className="min-w-0">
+                    <div className="text-[9px] uppercase tracking-wider text-slate-400 sm:text-[10px] sm:tracking-[0.2em] whitespace-nowrap">
+                      Illustrative setup
+                    </div>
+                    <div className="mt-0.5 text-base font-semibold text-white sm:mt-1 sm:text-xl whitespace-nowrap">
+                      XAUUSD Setup
+                    </div>
                   </div>
-                  <div className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2 py-1 text-[9px] uppercase tracking-[0.12em] text-emerald-300 sm:px-2.5 sm:text-[10px] sm:tracking-[0.2em]">
+                  <div className="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2 py-0.5 text-[8px] uppercase tracking-wider text-emerald-300 whitespace-nowrap sm:px-2.5 sm:py-1 sm:text-[10px] sm:tracking-[0.15em]">
                     Example data only
                   </div>
                 </div>
@@ -88,10 +92,24 @@ export default function Home() {
                     <div className="flex items-center justify-between"><span>Risk</span><span className="font-medium text-white">1%</span></div>
                   </div>
 
-                  <div className="mt-6 overflow-hidden rounded-xl border border-white/10 bg-slate-950/70 p-3">
-                    <div className="flex h-20 items-end gap-1">
-                      {[24, 28, 22, 35, 31, 40, 36, 54, 48, 62, 58, 68, 72, 70, 84, 80, 96, 88, 112, 105, 118, 126].map((height, idx) => (
-                        <div key={idx} className="flex-1 rounded-t-sm bg-gradient-to-t from-emerald-500 to-emerald-300/80" style={{ height: `${height}px` }} />
+                  <div className="mt-6 overflow-hidden rounded-xl border border-white/10 bg-slate-950/80 p-3.5">
+                    <div className="mb-2 flex items-center justify-between text-[10px] text-slate-400">
+                      <div className="flex items-center gap-1.5 font-mono">
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="uppercase tracking-wider text-slate-400">Execution Wave</span>
+                      </div>
+                      <span className="font-mono text-emerald-400/90 font-medium">+1.84R Target</span>
+                    </div>
+                    <div className="relative flex h-44 items-end gap-1 pt-2">
+                      {/* Grid guideline */}
+                      <div className="absolute inset-x-0 top-1/2 border-t border-dashed border-white/[0.06] pointer-events-none" />
+
+                      {[22, 28, 24, 35, 30, 44, 38, 52, 46, 60, 55, 68, 62, 74, 69, 78, 73, 84, 80, 88, 82, 90].map((height, idx) => (
+                        <div
+                          key={idx}
+                          className="flex-1 rounded-t-sm bg-gradient-to-t from-emerald-500/20 via-emerald-500 to-emerald-300 transition-all duration-200 hover:brightness-125"
+                          style={{ height: `${height}%` }}
+                        />
                       ))}
                     </div>
                   </div>
