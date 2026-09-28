@@ -18,32 +18,34 @@ An in-depth technical audit reveals that while Luxfocuss has an attractive visua
 ### My Approach as a Full-Stack Developer
 As a full-stack engineer with strong expertise in Next.js, React, TypeScript, Node.js, databases, and UI/UX design, my strategy is not to over-complicate trading theory, but to **build the solid engineering and automation backbone** that allows the business to scale seamlessly. 
 
+> [!NOTE]
+> **Initial Strategic Blueprint & Collaborative Evolution**:  
+> This roadmap reflects my technical proposals based on the current audit of the codebase. I believe software engineering must serve real commercial goals: upon joining, I will conduct in-depth discovery sessions with the leadership and product team to fully map out Luxfocuss's proprietary business logic, operational workflows, customer segments, and budget allocations—iteratively refining this roadmap to align with company priorities.
+
 I will systematically evolve Luxfocuss across **3 clear phases**:
 * **Month 1 (Foundation)**: Eliminate bugs, polish UI/UX and responsive UX, establish automated testing.
-* **Month 2 (Platform & AI Automation)**: Build the full-stack database engine, automated licensing, robust admin suite, and **AI Agentic Workflows** to automate operational overhead.
-* **Month 3 (Growth & Scalability)**: Scale organic traffic via Programmatic SEO, optimize conversion funnels, harden security, and launch self-serve B2B/affiliate features.
+* **Month 2 (Platform & AI Automation)**: Build the full-stack database engine, automated licensing, robust admin suite, and **AI Agentic Workflows** (aligned with business logic & budget).
+* **Month 3 (Growth & Scalability)**: Scale organic traffic via Programmatic SEO, optimize conversion funnels, harden security, and launch self-serve B2B/affiliate features (adapted to commercial goals).
 
 ```
-┌───────────────────────────────────────┐
-│     MONTH 1 — FOUNDATION & QUALITY    │
-│  Fix Bugs • Polish UX • a11y & Speed  │
-└───────────────────┬───────────────────┘
-                    │
-                    ▼
-┌───────────────────────────────────────┐
-│     MONTH 2 — PLATFORM & AUTOMATION   │
-│  Live DB • Stripe & License • AI Desk |
-|(if busness logic needs and budget     |
-│ allows)                               │
-└───────────────────┬───────────────────┘
-                    │
-                    ▼
-┌───────────────────────────────────────┐
-│     MONTH 3 — GROWTH & SCALABILITY    │
-│  SEO Engine • Analytics • B2B / Scale |
-│ (if busness logic needs and budget    |
-│  allows)                              |
-└───────────────────────────────────────┘
+┌───────────────────────────────────────────────┐
+│        MONTH 1 — FOUNDATION & QUALITY         │
+│     Fix Bugs • Polish UX • a11y & Speed       │
+└───────────────────────┬───────────────────────┘
+                        │
+                        ▼
+┌───────────────────────────────────────────────┐
+│        MONTH 2 — PLATFORM & AUTOMATION        │
+│    Live DB • Stripe & License • AI Desk       │
+│   (Tailored to business logic & budget)       │
+└───────────────────────┬───────────────────────┘
+                        │
+                        ▼
+┌───────────────────────────────────────────────┐
+│        MONTH 3 — GROWTH & SCALABILITY         │
+│     SEO Engine • Analytics • B2B / Scale      │
+│     (Adapted to business growth goals)        │
+└───────────────────────────────────────────────┘
 ```
 
 ---
