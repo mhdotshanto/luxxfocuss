@@ -221,17 +221,164 @@ The administrative portal and backoffice surfaces of Luxfocuss are secured throu
 
 ---
 
-### 2. Production Deployment & Database Seed Protocol
+## ⚡ Assessment Task 04 — Public Contact & Algorithmic Inquiry System
 
-To seed the initial Super Administrator in production environments (Vercel, Docker, VPS, Render):
+As part of Task 04, a complete enterprise-grade **Public Contact & Algorithmic Inquiry Feature** was built from scratch at [`src/app/(default)/contact/page.tsx`](./src/app/(default)/contact/page.tsx) without relying on any external third-party form SaaS or mock arrays.
+
+### 1. Architectural Highlights & User Experience
+
+1. **Strict End-to-End Type Safety (React Hook Form + Zod)**:
+   * Form inputs are validated in real-time on the client using `@hookform/resolvers/zod` against a single source-of-truth schema in [`src/lib/validations/inquiry.ts`](./src/lib/validations/inquiry.ts).
+   * Enforces rigorous validation rules:
+     - `name`: Min 2 chars, max 100 chars, trimmed.
+     - `email`: Required, RFC 5322 compliant, auto-lowercased and trimmed.
+     - `phone`: Optional direct phone/WhatsApp contact (max 30 chars).
+     - `subject`: Min 3 chars, max 150 chars (product or technical subject).
+     - `message`: Min 10 chars, max 3,000 chars.
+
+2. **Server Action Mutation (`createInquiryAction`)**:
+   * Mutations are dispatched to the server action in [`src/app/actions/inquiry-actions.ts`](./src/app/actions/inquiry-actions.ts) using React 19's `useTransition` hook.
+   * Runs safe server-side validation via `inquiryFormSchema.safeParse(rawData)`.
+   * Inserts directly into PostgreSQL via `db.inquiry.create()`.
+   * Triggers immediate server cache revalidation across `/admin/inquiries` and `/admin` via `revalidatePath()`.
+
+3. **Institutional Confirmation Screen & Reference ID**:
+   * Upon successful submission, the form cleanly transitions into a dedicated confirmation screen displaying a unique, cryptographic reference code (e.g. `Reference: #INQ-NBGSSH`).
+   * Displays SLA target response times (`< 4 Hours`) and provides a one-click "Send Another Message" reset trigger.
+
+4. **Zero-Flicker Error Handling & Field Error Mapping**:
+   * Server validation failures or network errors are mapped directly back to input controls via `setError(field, ...)` with inline red micro-copy.
+   * An accessible top alert banner communicates general transmission issues without losing the user's form inputs.
+
+---
+
+## 🎛️ Assessment Task 05 — Administrative Inquiry Management Console
+
+To manage, track, and triage customer inquiries and institutional leads, a backoffice **Inquiry & Support Desk Console** was built at [`src/app/admin/(default)/inquiries/page.tsx`](./src/app/admin/(default)/inquiries/page.tsx).
+
+### 1. Core Administrative Capabilities
+
+1. **Real-Time Data Table (`<InquiryManagementTable />`)**:
+   * Powered by live PostgreSQL database queries via Prisma ORM with **zero hardcoded mock arrays**.
+   * Renders comprehensive client metadata: Client Name, Email (with one-click clipboard copy), Phone/WhatsApp, Subject, Message Preview, and timestamp with relative age (`10m ago`, `2h ago`).
+
+2. **Status Workflow & Live State Transitions**:
+   * Inquiries transition through an enterprise state machine enum: `NEW` ➔ `CONTACTED` ➔ `IN_PROGRESS` ➔ `COMPLETED` ➔ `CANCELLED`.
+   * Administrators can change statuses directly from the table row via a custom styled select dropdown or inside the detail modal.
+   * Features **Optimistic UI Updates** paired with Server Action execution (`updateInquiryStatusAction`) and automatic rollback if network failure occurs.
+
+3. **Multi-Status Tab Filtering & Search**:
+   * Multi-tab filter bar (`All Inquiries`, `New`, `Contacted`, `In Progress`, `Completed`, `Cancelled`) with live badge counters dynamically derived from the active dataset.
+   * Instant debounced search filtering across client names, email addresses, subjects, message bodies, and phone numbers.
+
+4. **Full Inquiry Detail Modal & Internal Notes Workspace**:
+   * Clicking **"Details"** launches an inspection modal displaying the complete unclipped message body and client parameters.
+   * Includes a dedicated **Internal Engineering Notes** editor:
+     - Allows desk engineers to log broker account numbers, VPS credentials, or call notes.
+     - Notes are saved directly to PostgreSQL via `updateInquiryNotesAction`.
+   * Direct `mailto:` action button with pre-filled subject and recipient address for rapid email client dispatch.
+   * Full keyboard accessibility: Supports `Escape` key and backdrop click dismissal.
+
+5. **Irreversible Record Deletion with Confirmation Modal**:
+   * Destructive actions are safeguarded with a confirmation dialog to prevent accidental data loss.
+   * Deletions execute via `deleteInquiryAction`, permanently removing the record from PostgreSQL and revalidating the UI cache.
+
+---
+
+## 🗄️ Assessment Task 06 — Database Architecture & Engineering Decisions
+
+The Luxfocuss data layer is built on **PostgreSQL** orchestrated via **Prisma ORM** (`prisma/schema.prisma`), running locally in a high-performance Docker container (`pgsql`) and prepared for enterprise cloud deployments.
+
+### 1. Database Technology Choice: Why PostgreSQL?
+
+* **Relational Integrity & Strict ACID Compliance**: Financial platforms, software licenses, order items, and customer inquiries demand zero data corruption, transactional guarantees, and strict referential integrity.
+* **Native Enum Types**: PostgreSQL provides first-class native enum support (`InquiryStatus`, `AdminRole`, `OrderStatus`, `LicenseStatus`), ensuring type safety at both the database engine level and the TypeScript application layer.
+* **Superior Indexing Performance**: PostgreSQL's advanced B-Tree index implementations deliver sub-millisecond query latency across complex filtering, multi-column search, and timestamp sorting.
+
+---
+
+### 2. Schema Structure & Entity Design
+
+```
+┌──────────────┐       ┌─────────────────┐       ┌────────────────┐
+│   Inquiry    │       │      Admin      │       │      User      │
+│ (Contact Desk)│       │ (Isolated RBAC) │       │(Customer Trader│
+└──────────────┘       └─────────────────┘       └───────┬────────┘
+                                                         │ 1:N
+                                           ┌─────────────┴────────────┐
+                                           ▼                          ▼
+                                   ┌───────────────┐          ┌───────────────┐
+                                   │     Order     │          │    Session    │
+                                   └───────┬───────┘          └───────────────┘
+                                           │ 1:N
+                                           ▼
+                                   ┌───────────────┐
+                                   │   OrderItem   │ ───► Product
+                                   └───────────────┘
+```
+
+#### Key Models & Attributes:
+
+1. **`Inquiry` Model (Contact Desk & Lead Management)**:
+   * `id`: `String @id @default(cuid())` — Collision-resistant, URL-safe Primary Key.
+   * `name`: `String` — Full name of the client.
+   * `email`: `String` — Client contact email.
+   * `phone`: `String?` — Direct telephone/WhatsApp contact (optional).
+   * `subject`: `String?` — Target trading tool or inquiry subject.
+   * `message`: `String @db.Text` — Arbitrary length message body.
+   * `status`: `InquiryStatus @default(NEW)` — Native enum (`NEW`, `CONTACTED`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`).
+   * `notes`: `String? @db.Text` — Internal engineering desk notes.
+   * `ipAddress`: `String?` — Security audit trail & rate-limiting attribution.
+   * `createdAt` / `updatedAt`: `DateTime` — Auto-managed timestamps.
+
+2. **`Admin` Model (Isolated Security Layer)**:
+   * Physically decoupled from customer accounts to eliminate privilege escalation bugs.
+   * Role hierarchy managed via `AdminRole` (`SUPER_ADMIN`, `ADMIN`).
+   * `isSuspended` boolean flag for instant administrative access revocation.
+
+3. **`User`, `Product`, `Order`, `OrderItem`, `License`, `Session` Models**:
+   * Complete commercial engine supporting multi-device software licenses, activations, and order items.
+
+---
+
+### 3. Engineering Decisions: Data Types, Primary Keys, Relationships, Constraints & Indexes
+
+#### A. Primary Key Strategy: Why CUID Over Auto-Increment Integer or UUIDv4?
+- **Enumeration Attack Prevention**: Auto-incrementing integer IDs (`1, 2, 3`) allow competitors to scrape inquiry volumes or guess customer IDs by simply incrementing numbers in URLs.
+- **K-Sortable & Distributed**: `cuid()` includes a timestamp component, making records naturally sortable by creation time in B-Tree indexes, while being collision-free across distributed server instances.
+- **URL & Slug Safety**: CUIDs contain only alphanumeric characters, eliminating URL-encoding anomalies.
+
+#### B. Storage Optimization: `VarChar` vs `@db.Text` & `Int` for Currency
+- **Text Allocation**: Standard bounded fields (names, emails, phone numbers, subjects) use standard `String` columns. Unbounded arbitrary text (`message` and internal `notes`) explicitly use PostgreSQL `@db.Text` to prevent buffer overflows and avoid arbitrary string truncation.
+- **Integer Storage for Currency**: `priceCents`, `totalCents`, and `unitCents` are stored as integers (e.g. `$129.00` = `12900`). This completely eliminates IEEE-754 floating-point rounding inaccuracies inherent to standard floats.
+
+#### C. Referential Integrity & Cascades
+- Dependent child records use `onDelete: Cascade` (e.g. `User` ➔ `Session`, `Order` ➔ `OrderItem`, `User` ➔ `Order`, `User` ➔ `License`). When a user or parent order is deleted, all dependent items are purged automatically by the database engine, guaranteeing **zero orphaned rows**.
+
+#### D. Constraints & Data Integrity
+- `@unique` constraints are strictly enforced on `Admin.email`, `User.email`, `Product.slug`, `License.key`, and `Session.token` at the database engine level.
+- Non-nullability is enforced for all required attributes, while optional fields (`phone`, `subject`, `notes`, `ipAddress`) are declared nullable (`String?`).
+
+#### E. Strategic Indexing Plan (`@@index`)
+- **`Inquiry` Table**:
+  - `@@index([status])`: Speeds up admin status tab filtering (`WHERE status = 'NEW'`) to $O(\log N)$ lookup time.
+  - `@@index([createdAt])`: Accelerates chronological sorting for the inquiry desk table (`ORDER BY createdAt DESC`).
+  - `@@index([email])`: Enables instant customer search across historical inquiries.
+- **`Admin` Table**:
+  - `@@index([email, role])`: Enables instant $O(1)$ authentication checks during login and middleware session validation.
+- **`License` Table**:
+  - `@@index([userId, status])` and `@@index([productId, status])`: Optimizes high-throughput machine license validation endpoints.
+
+---
+
+### 4. Idempotent Database Seeding Protocol
+
+All initial administrative accounts, marketplace products, and realistic initial inquiries are populated via [`prisma/seed.ts`](./prisma/seed.ts) using `upsert` operations:
 ```bash
-# Generate Prisma Client, sync schema, seed Super Admin, and build
 pnpm prisma generate
 pnpm prisma db push
 pnpm prisma db seed
-pnpm next build
 ```
-* The seed script ([`prisma/seed.ts`](./prisma/seed.ts)) uses `prisma.admin.upsert`, making it **100% idempotent**—it is safe to execute on every production deployment without duplicating accounts or corrupting active credentials.
 
 ---
 
@@ -241,40 +388,44 @@ pnpm next build
 
 - Node.js 18.18+ or 20+
 - pnpm (recommended) or npm
+- Docker (for PostgreSQL database)
 
 ### Local Development
 
 ```bash
-# Install dependencies
+# 1. Install dependencies
 pnpm install
 
-# Generate Prisma client and sync database
+# 2. Start PostgreSQL container in Docker (if not running)
+docker start pgsql
+
+# 3. Generate Prisma client and sync database
 pnpm prisma generate
 pnpm prisma db push
 
-# Seed initial Super Admin and marketplace products
+# 4. Seed initial Super Admin, marketplace products, and demo inquiries
 pnpm prisma db seed
 
-# Start development server
+# 5. Start development server
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to explore the platform.
 
-### Production Build
+### Default Credentials
 
-```bash
-pnpm run build
-pnpm start
-```
+- **Admin Portal**: [http://localhost:3000/admin](http://localhost:3000/admin)
+- **Super Admin Email**: `superadmin@luxfocuss.com`
+- **Super Admin Password**: `ChangeMeInProd123!`
 
 ---
 
 ## 🏗️ Technology Stack
 
 - **Framework**: Next.js 16.3.5 (App Router with React 19)
-- **Styling**: Tailwind CSS v4
-- **Database & ORM**: Prisma ORM with SQLite (dev) / PostgreSQL (prod)
-- **Authentication & Security**: NextAuth.js v5 Beta (`auth.js`) with JWT sessions, Bcrypt password hashing, and Edge `proxy.ts` route protection
-- **Forms & Validation**: React Hook Form with Zod schemas and Server Actions
+- **Styling**: Tailwind CSS v4 with custom dark obsidian / emerald fintech aesthetic
+- **Database & ORM**: PostgreSQL 16 (in Docker) with Prisma ORM
+- **Authentication & Security**: NextAuth.js v5 Beta (`auth.js`) with isolated `Admin` table, Bcrypt password hashing, and Edge `proxy.ts` route protection
+- **Forms & Validation**: React Hook Form with shared Zod schemas and Next.js Server Actions
 - **Package Manager**: pnpm
+

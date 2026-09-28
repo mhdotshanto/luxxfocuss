@@ -1,5 +1,4 @@
-"use client";
-
+import { usePathname } from "next/navigation";
 import { Menu, Activity, ShieldCheck } from "lucide-react";
 
 interface AdminTopBarProps {
@@ -12,7 +11,13 @@ interface AdminTopBarProps {
 }
 
 export function AdminTopBar({ onOpenMobile, admin }: AdminTopBarProps) {
+  const pathname = usePathname();
   const isSuperAdmin = admin.role === "SUPER_ADMIN";
+
+  const getPageTitle = () => {
+    if (pathname.startsWith("/admin/inquiries")) return "Inquiry & Support Desk";
+    return "Operations & Telemetry";
+  };
 
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-white/10 bg-[#080c12]/90 px-4 sm:px-6 backdrop-blur-md">
@@ -31,7 +36,7 @@ export function AdminTopBar({ onOpenMobile, admin }: AdminTopBarProps) {
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <span>Admin</span>
             <span>/</span>
-            <span className="font-semibold text-white">Operations & Telemetry</span>
+            <span className="font-semibold text-white">{getPageTitle()}</span>
           </div>
         </div>
       </div>

@@ -106,6 +106,67 @@ async function main() {
     console.log("✅ Seeded demo customer order and license.");
   }
 
+  // 4. Seed Initial Inquiries (Task 05 & Task 06)
+  const initialInquiries = [
+    {
+      id: "inq-enterprise-quant-1",
+      name: "Marcus Vance",
+      email: "marcus.vance@vanguardquants.com",
+      phone: "+1 (312) 555-0192",
+      subject: "Enterprise Multi-Seat License for Prop Firm Desk",
+      message: "We manage a desk of 18 algorithmic futures traders. We want to inquire about custom institutional licensing for the Gold Hunter EA and liquidity suite on our dedicated private VPS.",
+      status: "NEW" as const,
+      notes: "High priority institutional lead. Schedule technical integration call.",
+    },
+    {
+      id: "inq-pinescript-webhook-2",
+      name: "Elena Rostova",
+      email: "elena.trader@algotrade.de",
+      phone: "+49 30 901820",
+      subject: "TradingView Webhook Alert Latency & Execution SLA",
+      message: "Does the SMC PRO indicator support sub-100ms webhook triggers for automated execution via Binance/Bybit API bridges?",
+      status: "CONTACTED" as const,
+      notes: "Responded with webhook documentation and latency benchmarks.",
+    },
+    {
+      id: "inq-mt5-activation-3",
+      name: "David Chen",
+      email: "david.chen@apexcapital.sg",
+      phone: "+65 6789 0123",
+      subject: "Hardware ID License Migration Request",
+      message: "I recently upgraded my server hardware and need to unbind my previous machine ID and reactivate my license for Session Guard MT4.",
+      status: "IN_PROGRESS" as const,
+      notes: "Verifying original purchase order #10421.",
+    },
+    {
+      id: "inq-custom-preset-4",
+      name: "Sarah Jenkins",
+      email: "sarah.j@londonfx.co.uk",
+      phone: "+44 20 7946 0912",
+      subject: "EURUSD London Open Custom Preset Configuration",
+      message: "Looking for optimal risk parameter sets for London session breakout volatility on 5-minute timeframes.",
+      status: "COMPLETED" as const,
+      notes: "Provided recommended .set files and risk disclosure documentation.",
+    },
+  ];
+
+  for (const inq of initialInquiries) {
+    await db.inquiry.upsert({
+      where: { id: inq.id },
+      update: {
+        name: inq.name,
+        email: inq.email,
+        phone: inq.phone,
+        subject: inq.subject,
+        message: inq.message,
+        status: inq.status,
+        notes: inq.notes,
+      },
+      create: inq,
+    });
+  }
+  console.log(`✅ Seeded ${initialInquiries.length} initial inquiries.`);
+
   console.log("🎉 Database seeding complete!");
 }
 

@@ -47,7 +47,7 @@ const navGroups: { group: string; items: NavItem[] }[] = [
       },
       {
         label: "Inquiry Desk",
-        href: "/admin#inquiries",
+        href: "/admin/inquiries",
         icon: MessageSquare,
         badge: "Live",
       },

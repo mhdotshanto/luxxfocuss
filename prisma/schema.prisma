@@ -124,3 +124,29 @@ model License {
   @@index([userId, status])
   @@index([productId, status])
 }
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String? //aded cus in userstore front there is already a field while user sending message
+  message   String        @db.Text
+  status    InquiryStatus @default(NEW)
+  notes     String?       @db.Text // additinally aded cus if user want thay can manage notes for that perticuler query 
+  ipAddress String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([email])
+}
