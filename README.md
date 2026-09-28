@@ -135,6 +135,26 @@ Both comprehensive manual browser inspection and automated headless browser test
 
 ---
 
+## 🏛️ Application Architecture — Route Grouping & Shell Decoupling (`(default)` vs `admin`)
+
+### 1. What Was Done
+The Next.js App Router structure was organized into an isolated route-group architecture:
+* **Storefront Route Group (`src/app/(default)/`)**: Encapsulates all 21 consumer-facing marketplace routes (`/`, `/products`, `/contact`, `/pricing`, `/checkout`, `/dashboard`, etc.) alongside the customer shell layout [`src/app/(default)/layout.tsx`](./src/app/(default)/layout.tsx) containing `<SiteHeader />` and `<SiteFooter />`.
+* **Administrative Surface (`src/app/admin/`)**: Remains decoupled outside the `(default)` group to house dedicated backoffice management layouts.
+
+### 2. Purpose of the Reorganization & Why It Is Needed
+1. **Shell & Layout Decoupling**:
+   * The public marketplace requires consumer-centric navigational chrome (product dropdowns, cart indicators, marketing links, and promotional footer).
+   * The Administrative Portal (`/admin`), by contrast, is an operational backoffice workspace. Rendering marketing navigation and footers inside an admin console creates visual noise, reduces usable screen real estate, and degrades administrative workflow speed.
+   * Isolating the consumer shell in `(default)/layout.tsx` guarantees that `/admin` has its own dedicated backoffice layout (sidebar navigation, telemetry monitors, session status, and direct logout) without marketing header/footer pollution.
+2. **Zero URL Impact (Clean Routing)**:
+   * Next.js route groups enclosed in parentheses `(name)` organize routes logically without injecting path segments into public URLs.
+   * All public URLs remain clean (`/contact`, `/products`, `/pricing`), preserving 100% SEO integrity and link structure.
+3. **Security & Role-Based Auth Boundary (Tasks 04–07 Foundation)**:
+   * Establishes a clean structural boundary for administrative middleware and session authentication guards (Task 07), ensuring backoffice inquiry management (Task 05) and database operations (Task 06) operate within an isolated, protected context.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
