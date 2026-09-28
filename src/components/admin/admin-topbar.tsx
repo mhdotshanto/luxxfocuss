@@ -22,7 +22,7 @@ export function AdminTopBar({ onOpenMobile, admin }: AdminTopBarProps) {
           type="button"
           onClick={onOpenMobile}
           aria-label="Open mobile sidebar"
-          className="inline-flex lg:hidden h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 hover:text-white"
+          className="inline-flex lg:hidden h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 hover:text-white"
         >
           <Menu className="h-5 w-5" />
         </button>

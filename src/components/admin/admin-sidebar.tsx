@@ -73,17 +73,6 @@ const navGroups: { group: string; items: NavItem[] }[] = [
       },
     ],
   },
-  {
-    group: "Platform",
-    items: [
-      {
-        label: "Live Storefront",
-        href: "/",
-        icon: ExternalLink,
-        external: true,
-      },
-    ],
-  },
 ];
 
 export function AdminSidebar({
@@ -112,50 +101,65 @@ export function AdminSidebar({
         } ${isCollapsed ? "lg:w-[68px]" : "lg:w-64"}`}
       >
         {/* Top Header & Branding */}
-        <div className="flex h-16 items-center justify-between border-b border-white/10 px-3.5">
-          <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-400 shadow-md">
-              <Shield className="h-5 w-5" />
-            </div>
-            {!isCollapsed && (
-              <div className="min-w-0 transition-opacity duration-200">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-black tracking-tight text-white">
-                    LUX<span className="text-emerald-400">FOCUSS</span>
-                  </span>
-                  <span className="rounded bg-emerald-400/15 px-1.5 py-0.2 text-[8px] font-mono font-bold uppercase tracking-wider text-emerald-300">
-                    Admin
-                  </span>
+        <div
+          className={`flex h-16 items-center border-b border-white/10 transition-all duration-300 ${
+            isCollapsed ? "justify-center px-2" : "justify-between px-3.5"
+          }`}
+        >
+          {isCollapsed ? (
+            /* Collapsed Mode: Single Centered Expand Button with Hover Icon Transition */
+            <button
+              type="button"
+              onClick={onToggleCollapse}
+              aria-label="Expand sidebar"
+              title="Expand Sidebar"
+              className="group relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-400 shadow-md transition-all hover:border-emerald-400/60 hover:bg-emerald-500/20"
+            >
+              <Shield className="h-5 w-5 transition-all duration-200 group-hover:scale-0 group-hover:opacity-0" />
+              <PanelLeftOpen className="absolute h-5 w-5 text-emerald-300 transition-all duration-200 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100" />
+            </button>
+          ) : (
+            /* Expanded Mode: Full Logo on Left, Collapse Toggle on Right */
+            <>
+              <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden cursor-pointer">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-400 shadow-md">
+                  <Shield className="h-5 w-5" />
                 </div>
-                <div className="text-[10px] text-slate-400 font-medium">Enterprise Desk</div>
-              </div>
-            )}
-          </Link>
+                <div className="min-w-0 transition-opacity duration-200">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm font-black tracking-tight text-white">
+                      LUX<span className="text-emerald-400">FOCUSS</span>
+                    </span>
+                    <span className="rounded bg-emerald-400/15 px-1.5 py-0.2 text-[8px] font-mono font-bold uppercase tracking-wider text-emerald-300">
+                      Admin
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-400 font-medium">Enterprise Desk</div>
+                </div>
+              </Link>
 
-          {/* Desktop Collapse Toggle */}
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="hidden lg:inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
-            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isCollapsed ? (
-              <PanelLeftOpen className="h-4 w-4" />
-            ) : (
-              <PanelLeftClose className="h-4 w-4" />
-            )}
-          </button>
+              {/* Desktop Collapse Toggle */}
+              <button
+                type="button"
+                onClick={onToggleCollapse}
+                aria-label="Collapse sidebar"
+                className="hidden lg:inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                title="Collapse Sidebar"
+              >
+                <PanelLeftClose className="h-4 w-4" />
+              </button>
 
-          {/* Mobile Close Button */}
-          <button
-            type="button"
-            onClick={onCloseMobile}
-            aria-label="Close sidebar"
-            className="inline-flex lg:hidden h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"
-          >
-            <X className="h-4 w-4" />
-          </button>
+              {/* Mobile Close Button */}
+              <button
+                type="button"
+                onClick={onCloseMobile}
+                aria-label="Close sidebar"
+                className="inline-flex lg:hidden h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Navigation Body */}
@@ -180,7 +184,7 @@ export function AdminSidebar({
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     onClick={() => onCloseMobile()}
-                    className={`group relative flex items-center gap-3 rounded-xl px-2.5 py-2 text-xs font-semibold transition-all ${
+                    className={`group relative flex items-center gap-3 rounded-xl px-2.5 py-2 text-xs font-semibold cursor-pointer transition-all ${
                       isActive
                         ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30"
                         : "text-slate-400 hover:bg-white/5 hover:text-white border border-transparent"

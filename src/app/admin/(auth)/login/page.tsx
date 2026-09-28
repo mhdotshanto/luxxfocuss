@@ -122,7 +122,7 @@ function AdminLoginForm() {
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-white transition focus:outline-none"
+              className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3.5 text-slate-400 hover:text-white transition focus:outline-none"
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4" />
@@ -144,7 +144,7 @@ function AdminLoginForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-400 px-6 text-sm font-bold text-slate-950 shadow-[0_0_25px_rgba(16,185,129,0.25)] transition hover:bg-emerald-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-400 px-6 text-sm font-bold text-slate-950 shadow-[0_0_25px_rgba(16,185,129,0.25)] transition hover:bg-emerald-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>
@@ -215,7 +215,7 @@ export default function AdminLoginPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-xs text-slate-400 hover:text-white transition"
+            className="text-xs text-slate-400 hover:text-white transition cursor-pointer"
           >
             ← Return to Public Trading Marketplace
           </Link>

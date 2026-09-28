@@ -31,8 +31,15 @@ body {
   box-sizing: border-box;
 }
 
+button,
+[role="button"],
 a {
-  text-decoration: none;
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
 }
 
 img {

@@ -67,9 +67,8 @@ export function AdminUserMenu({ admin, isCollapsed }: AdminUserMenuProps) {
       {/* Upward Floating Popover Menu */}
       {isOpen && (
         <div
-          className={`absolute bottom-full mb-2 z-50 rounded-2xl border border-white/10 bg-[#0c131d]/95 p-2 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150 ${
-            isCollapsed ? "left-0 w-64" : "left-0 right-0 w-full"
-          }`}
+          className={`absolute bottom-full mb-2 z-50 rounded-2xl border border-white/10 bg-[#0c131d]/95 p-2 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150 ${isCollapsed ? "left-0 w-64" : "left-0 right-0 w-full"
+            }`}
         >
           {/* User Profile Header */}
           <div className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-3">
@@ -80,11 +79,10 @@ export function AdminUserMenu({ admin, isCollapsed }: AdminUserMenuProps) {
               <div className="flex items-center gap-1.5">
                 <span className="truncate text-xs font-bold text-white">{name}</span>
                 <span
-                  className={`shrink-0 rounded px-1.5 py-0.2 text-[8px] font-mono font-black uppercase ${
-                    isSuperAdmin
-                      ? "border border-purple-400/30 bg-purple-500/15 text-purple-300"
-                      : "border border-emerald-400/30 bg-emerald-500/15 text-emerald-300"
-                  }`}
+                  className={`shrink-0 rounded px-1.5 py-0.2 text-[8px] font-mono font-black uppercase ${isSuperAdmin
+                    ? "border border-purple-400/30 bg-purple-500/15 text-purple-300"
+                    : "border border-emerald-400/30 bg-emerald-500/15 text-emerald-300"
+                    }`}
                 >
                   {isSuperAdmin ? "SUPER" : "ADMIN"}
                 </span>
@@ -101,7 +99,7 @@ export function AdminUserMenu({ admin, isCollapsed }: AdminUserMenuProps) {
               href="/"
               target="_blank"
               onClick={() => setIsOpen(false)}
-              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
+              className="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
             >
               <ExternalLink className="h-3.5 w-3.5 text-emerald-400" />
               <span>Live Storefront</span>
@@ -121,7 +119,7 @@ export function AdminUserMenu({ admin, isCollapsed }: AdminUserMenuProps) {
             type="button"
             onClick={handleSignOut}
             disabled={isPending}
-            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-rose-400 transition hover:bg-rose-500/10 hover:text-rose-300 disabled:opacity-50"
+            className="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-rose-400 transition hover:bg-rose-500/10 hover:text-rose-300 disabled:opacity-50"
           >
             {isPending ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -137,7 +135,7 @@ export function AdminUserMenu({ admin, isCollapsed }: AdminUserMenuProps) {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`group flex w-full items-center gap-3 rounded-xl border border-transparent p-2 text-left transition hover:border-white/10 hover:bg-white/5 focus:outline-none ${
+        className={`group flex w-full cursor-pointer items-center gap-3 rounded-xl border border-transparent p-2 text-left transition hover:border-white/10 hover:bg-white/5 focus:outline-none ${
           isOpen ? "border-white/15 bg-white/5" : ""
         } ${isCollapsed ? "justify-center" : ""}`}
         title={isCollapsed ? `${name} (${email})` : undefined}
