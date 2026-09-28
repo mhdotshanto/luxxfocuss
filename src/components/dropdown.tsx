@@ -79,16 +79,20 @@ export function Dropdown({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className={`flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 ${
+        className={`flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 ${
           isOpen || hasActiveChild
-            ? "bg-white/10 font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+            ? "bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
             : "text-slate-300 hover:bg-white/5 hover:text-white"
         }`}
       >
         <span>{label}</span>
         <span
-          className={`text-[10px] transition-transform duration-200 ${
-            isOpen ? "rotate-180 text-emerald-400" : hasActiveChild ? "text-slate-400" : "text-slate-500"
+          className={`inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center text-[10px] origin-center transition-transform duration-200 ${
+            isOpen
+              ? "rotate-180 text-emerald-400"
+              : hasActiveChild
+              ? "text-slate-300"
+              : "text-slate-500"
           }`}
           aria-hidden="true"
         >
@@ -108,10 +112,10 @@ export function Dropdown({
                 key={item.href}
                 href={item.href}
                 role="menuitem"
-                className={`block rounded-xl px-4 py-3 transition ${
+                className={`block rounded-xl border px-4 py-3 transition ${
                   isActive
-                    ? "border border-emerald-400/20 bg-emerald-500/10"
-                    : "hover:bg-white/5"
+                    ? "border-emerald-400/20 bg-emerald-500/10"
+                    : "border-transparent hover:bg-white/5"
                 }`}
               >
                 <div className="flex items-center justify-between">

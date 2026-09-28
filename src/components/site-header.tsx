@@ -46,10 +46,10 @@ export function SiteHeader() {
         <nav className="hidden min-w-0 flex-1 items-center gap-1 text-sm text-slate-300 lg:flex">
           <Link
             href="/"
-            className={`rounded-xl px-3 py-2 transition ${
+            className={`rounded-xl px-3 py-2 text-sm font-medium transition ${
               pathname === "/"
-                ? "bg-white/10 font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
-                : "hover:bg-white/5 hover:text-white"
+                ? "bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                : "text-slate-300 hover:bg-white/5 hover:text-white"
             }`}
           >
             Home
@@ -59,10 +59,10 @@ export function SiteHeader() {
 
           <Link
             href="/bundles"
-            className={`rounded-xl px-3 py-2 transition ${
+            className={`rounded-xl px-3 py-2 text-sm font-medium transition ${
               pathname === "/bundles"
-                ? "bg-white/10 font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
-                : "hover:bg-white/5 hover:text-white"
+                ? "bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                : "text-slate-300 hover:bg-white/5 hover:text-white"
             }`}
           >
             Bundles
