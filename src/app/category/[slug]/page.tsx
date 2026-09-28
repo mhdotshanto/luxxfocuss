@@ -50,31 +50,31 @@ export default async function CategoryPage({
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div className="mb-8 sm:mb-10 flex flex-col gap-5 sm:gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <div className="text-xs uppercase tracking-[0.25em] text-emerald-300">Category</div>
-          <h1 className="mt-3 text-4xl font-black tracking-[-0.05em] text-white">
+          <h1 className="mt-2 sm:mt-3 text-3xl sm:text-4xl font-black tracking-[-0.05em] text-white">
             {category.icon} {category.name}
           </h1>
-          <p className="mt-3 max-w-2xl text-slate-300">{category.description}</p>
+          <p className="mt-2.5 sm:mt-3 max-w-2xl text-sm sm:text-base text-slate-300">{category.description}</p>
         </div>
 
         <Link
           href="/products"
-          className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-400/40 hover:text-emerald-200"
+          className="self-start lg:self-auto inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium text-slate-200 transition hover:border-emerald-400/40 hover:text-emerald-200"
         >
           Browse all products
         </Link>
       </div>
 
-      <div className="mb-8 grid gap-4 rounded-3xl border border-white/10 bg-[#0b1118] p-4 sm:grid-cols-3">
+      <div className="mb-8 grid grid-cols-1 gap-3 rounded-3xl border border-white/10 bg-[#0b1118] p-4 sm:grid-cols-3 sm:gap-4 sm:p-5">
         <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Products</div>
-          <div className="mt-2 text-2xl font-bold text-white">{categoryProducts.length}</div>
+          <div className="mt-1.5 sm:mt-2 text-xl sm:text-2xl font-bold text-white">{categoryProducts.length}</div>
         </div>
         <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Average rating</div>
-          <div className="mt-2 text-2xl font-bold text-white">
+          <div className="mt-1.5 sm:mt-2 text-xl sm:text-2xl font-bold text-white">
             {categoryProducts.length
               ? (
                   (categoryProducts.reduce((total, product) => total + product.rating, 0) / categoryProducts.length).toFixed(1)
@@ -84,8 +84,8 @@ export default async function CategoryPage({
         </div>
         <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Starting at</div>
-          <div className="mt-2 text-2xl font-bold text-white">
-            ${Math.min(...categoryProducts.map((product) => product.price), 0) || 0}
+          <div className="mt-1.5 sm:mt-2 text-xl sm:text-2xl font-bold text-white">
+            ${categoryProducts.length ? Math.min(...categoryProducts.map((product) => product.price)) : 0}
           </div>
         </div>
       </div>

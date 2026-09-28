@@ -15,24 +15,24 @@ export default async function ProductDetailPage({
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="grid gap-8 lg:gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1118]">
-          <div className="relative h-64 overflow-hidden border-b border-white/10 sm:h-[420px]">
+          <div className="relative h-56 overflow-hidden border-b border-white/10 sm:h-[420px]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.14),transparent_45%)]" />
             <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
           </div>
 
           <div className="p-4 sm:p-6">
-            <div className="mb-6 flex flex-wrap items-center gap-2 text-xs text-slate-300 sm:gap-3 sm:text-sm">
-              <span className="rounded-full border border-white/10 bg-slate-900 px-2 py-1">{product.category}</span>
-              <span className="rounded-full border border-white/10 bg-slate-900 px-2 py-1">{product.platform}</span>
-              <span className="rounded-full border border-white/10 bg-slate-900 px-2 py-1">{product.markets.join(" / ")}</span>
+            <div className="mb-4 sm:mb-6 flex flex-wrap items-center gap-2 text-xs text-slate-300 sm:gap-3 sm:text-sm">
+              <span className="rounded-full border border-white/10 bg-slate-900 px-2.5 py-1">{product.category}</span>
+              <span className="rounded-full border border-white/10 bg-slate-900 px-2.5 py-1">{product.platform}</span>
+              <span className="rounded-full border border-white/10 bg-slate-900 px-2.5 py-1">{product.markets.join(" / ")}</span>
             </div>
 
-            <h1 className="text-3xl font-black tracking-[-0.05em] text-white sm:text-4xl">{product.name}</h1>
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-300">
-              <span>★ {product.rating}</span>
+            <h1 className="text-2xl sm:text-4xl font-black tracking-[-0.05em] text-white">{product.name}</h1>
+            <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-slate-300">
+              <span className="text-amber-300">★ {product.rating}</span>
               <span>{product.strategy}</span>
               <span>{product.timeframe}</span>
               <span className={product.riskLevel === "High" ? "text-amber-300" : "text-emerald-300"}>{product.riskLevel} risk profile</span>
@@ -40,13 +40,13 @@ export default async function ProductDetailPage({
 
             <div className="mt-8 space-y-8">
               <section>
-                <h2 className="mb-3 text-xl font-semibold text-white">Product overview</h2>
-                <p className="leading-8 text-slate-300">{product.description}</p>
+                <h2 className="mb-3 text-lg sm:text-xl font-semibold text-white">Product overview</h2>
+                <p className="text-sm sm:text-base leading-7 sm:leading-8 text-slate-300">{product.description}</p>
               </section>
 
               <section>
-                <h2 className="mb-3 text-xl font-semibold text-white">Features</h2>
-                <ul className="grid gap-3 sm:grid-cols-2">
+                <h2 className="mb-3 text-lg sm:text-xl font-semibold text-white">Features</h2>
+                <ul className="grid gap-2.5 sm:gap-3 sm:grid-cols-2 text-xs sm:text-sm">
                   {[
                     "Automated entries",
                     "Stop Loss",
@@ -61,14 +61,14 @@ export default async function ProductDetailPage({
                     "Magic number",
                     "Dashboard",
                   ].map((feature) => (
-                    <li key={feature} className="flex items-center gap-3 text-slate-200"><span className="text-emerald-300">✓</span>{feature}</li>
+                    <li key={feature} className="flex items-center gap-2.5 text-slate-200"><span className="text-emerald-300">✓</span>{feature}</li>
                   ))}
                 </ul>
               </section>
 
               <section>
-                <h2 className="mb-3 text-xl font-semibold text-white">Strategy</h2>
-                <p className="leading-8 text-slate-300">
+                <h2 className="mb-3 text-lg sm:text-xl font-semibold text-white">Strategy</h2>
+                <p className="text-sm sm:text-base leading-7 sm:leading-8 text-slate-300">
                   Market structure, liquidity, volatility, entry confirmation, and disciplined risk management combine to form a clear execution framework without exposing proprietary source code.
                 </p>
               </section>
@@ -76,14 +76,14 @@ export default async function ProductDetailPage({
           </div>
         </div>
 
-        <aside className="rounded-[2rem] border border-white/10 bg-[#0b1118] p-4 sm:p-6">
+        <aside className="rounded-[2rem] border border-white/10 bg-[#0b1118] p-5 sm:p-6">
           <div className="text-xs uppercase tracking-[0.25em] text-emerald-300">Purchase</div>
-          <div className="mt-4 flex items-center gap-3">
-            <div className="text-4xl font-black text-white">${product.salePrice ?? product.price}</div>
-            {product.salePrice ? <span className="text-xl text-slate-500 line-through">${product.price}</span> : null}
+          <div className="mt-3 sm:mt-4 flex items-center gap-3">
+            <div className="text-3xl sm:text-4xl font-black text-white">${product.salePrice ?? product.price}</div>
+            {product.salePrice ? <span className="text-lg sm:text-xl text-slate-500 line-through">${product.price}</span> : null}
           </div>
 
-          <div className="mt-8 space-y-3 text-sm text-slate-300">
+          <div className="mt-6 sm:mt-8 space-y-3 text-xs sm:text-sm text-slate-300">
             <div className="flex items-center justify-between"><span>Platform</span><span className="text-white">{product.platform}</span></div>
             <div className="flex items-start justify-between gap-4"><span>Markets</span><span className="text-right text-white">{product.markets.join(" / ")}</span></div>
             <div className="flex items-center justify-between"><span>License</span><span className="text-white">{product.license}</span></div>
@@ -91,18 +91,18 @@ export default async function ProductDetailPage({
             <div className="flex items-center justify-between"><span>Support</span><span className="text-white">{product.support}</span></div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3">
-            <Link href="/checkout" className="rounded-full bg-emerald-500 px-5 py-3 text-center text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
+          <div className="mt-6 sm:mt-8 flex flex-col gap-3">
+            <Link href={`/checkout?product=${product.slug}`} className="flex h-12 w-full items-center justify-center rounded-full bg-emerald-500 px-5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
               Buy Now
             </Link>
-            <button className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-400/40 hover:text-emerald-200">
-              Add to Cart
-            </button>
+            <Link href="/checkout" className="flex h-12 w-full items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 text-sm font-semibold text-white transition hover:border-emerald-400/40 hover:text-emerald-200">
+              View in Cart
+            </Link>
           </div>
 
-          <div className="mt-8 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-            <h3 className="mb-3 text-sm uppercase tracking-[0.25em] text-slate-400">Technical specs</h3>
-            <ul className="space-y-2 text-sm text-slate-300">
+          <div className="mt-6 sm:mt-8 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+            <h3 className="mb-3 text-xs uppercase tracking-[0.25em] text-slate-400">Technical specs</h3>
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
               <li>Platform: {product.platform}</li>
               <li>Markets: {product.markets.join(" / ")}</li>
               <li>Primary timeframe: {product.timeframe}</li>
@@ -117,12 +117,12 @@ export default async function ProductDetailPage({
       </div>
 
       <div className="mt-8 rounded-[2rem] border border-white/10 bg-[#0b1118] p-4 sm:mt-12 sm:p-6">
-        <div className="mb-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.15em] text-slate-400 sm:gap-3 sm:text-sm sm:tracking-[0.2em]">
-          <span className="rounded-full border border-white/10 px-3 py-2">Backtest sample</span>
-          <span className="rounded-full border border-white/10 px-3 py-2">Forward-test sample</span>
-          <span className="rounded-full border border-white/10 px-3 py-2">No live verification</span>
+        <div className="mb-4 sm:mb-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.15em] text-slate-400 sm:gap-3 sm:text-xs sm:tracking-[0.2em]">
+          <span className="rounded-full border border-white/10 px-3 py-1.5 sm:py-2">Backtest sample</span>
+          <span className="rounded-full border border-white/10 px-3 py-1.5 sm:py-2">Forward-test sample</span>
+          <span className="rounded-full border border-white/10 px-3 py-1.5 sm:py-2">No live verification</span>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
           {[
             { label: "Net Profit", value: "$18,240" },
             { label: "Profit Factor", value: "1.92" },
@@ -131,9 +131,9 @@ export default async function ProductDetailPage({
             { label: "Total Trades", value: "1,284" },
             { label: "Recovery Factor", value: "2.11" },
           ].map((metric) => (
-            <div key={metric.label} className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">{metric.label}</div>
-              <div className="mt-2 text-xl font-bold text-white">{metric.value}</div>
+            <div key={metric.label} className="rounded-2xl border border-white/10 bg-slate-950/60 p-3 sm:p-4">
+              <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-slate-400">{metric.label}</div>
+              <div className="mt-1 sm:mt-2 text-base sm:text-xl font-bold text-white">{metric.value}</div>
             </div>
           ))}
         </div>

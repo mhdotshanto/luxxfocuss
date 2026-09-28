@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (orderId) {
       const order = await db.order.findUnique({ where: { id: orderId }, include: { items: true } });
       if (order && order.status !== "PAID") {
-        await db.$transaction(async (transaction) => {
+        await db.$transaction(async (transaction: any) => {
           await transaction.order.update({ where: { id: order.id }, data: { status: "PAID", providerRef: session.id } });
           for (const item of order.items) {
             for (let index = 0; index < item.quantity; index += 1) {

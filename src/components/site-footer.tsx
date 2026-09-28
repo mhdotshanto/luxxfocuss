@@ -20,32 +20,32 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-200">Products</h3>
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">Products</h3>
           <ul className="space-y-3 text-sm text-slate-400">
-            <li><Link href="/products">Marketplace</Link></li>
-            <li><Link href="/category/ea-bots">EA Bots</Link></li>
-            <li><Link href="/category/tradingview-indicators">Indicators</Link></li>
-            <li><Link href="/pricing">Pricing</Link></li>
+            <li><Link href="/products" className="transition hover:text-emerald-300">Marketplace</Link></li>
+            <li><Link href="/category/ea-bots" className="transition hover:text-emerald-300">EA Bots</Link></li>
+            <li><Link href="/category/tradingview-indicators" className="transition hover:text-emerald-300">Indicators</Link></li>
+            <li><Link href="/pricing" className="transition hover:text-emerald-300">Pricing</Link></li>
           </ul>
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-200">Resources</h3>
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">Resources</h3>
           <ul className="space-y-3 text-sm text-slate-400">
-            <li><Link href="/documentation">Documentation</Link></li>
-            <li><Link href="/faq">FAQ</Link></li>
-            <li><Link href="/about">About</Link></li>
-            <li><Link href="/contact">Support</Link></li>
+            <li><Link href="/documentation" className="transition hover:text-emerald-300">Documentation</Link></li>
+            <li><Link href="/faq" className="transition hover:text-emerald-300">FAQ</Link></li>
+            <li><Link href="/about" className="transition hover:text-emerald-300">About</Link></li>
+            <li><Link href="/contact" className="transition hover:text-emerald-300">Support</Link></li>
           </ul>
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-200">Legal</h3>
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">Legal</h3>
           <ul className="space-y-3 text-sm text-slate-400">
-            <li><Link href="/terms">Terms</Link></li>
-            <li><Link href="/privacy">Privacy</Link></li>
-            <li><Link href="/refund-policy">Refund Policy</Link></li>
-            <li><Link href="/risk-disclosure">Risk Disclosure</Link></li>
+            <li><Link href="/terms" className="transition hover:text-emerald-300">Terms</Link></li>
+            <li><Link href="/privacy" className="transition hover:text-emerald-300">Privacy</Link></li>
+            <li><Link href="/refund-policy" className="transition hover:text-emerald-300">Refund Policy</Link></li>
+            <li><Link href="/risk-disclosure" className="transition hover:text-emerald-300">Risk Disclosure</Link></li>
           </ul>
         </div>
       </div>

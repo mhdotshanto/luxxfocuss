@@ -44,10 +44,13 @@ img {
   background: rgba(52, 211, 153, 0.35);
 }
 
-.scrollbar-hidden {
+.scrollbar-hidden,
+.no-scrollbar {
   scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.scrollbar-hidden::-webkit-scrollbar {
+.scrollbar-hidden::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
