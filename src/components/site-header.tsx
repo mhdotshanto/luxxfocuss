@@ -1,4 +1,28 @@
 import Link from "next/link";
+import { Dropdown, type DropdownItem } from "@/components/dropdown";
+
+const productsNav: DropdownItem[] = [
+  { label: "All products", href: "/products", description: "Browse the full catalog" },
+  { label: "EA Bots", href: "/category/ea-bots", description: "MT4 and MT5 automation" },
+  { label: "TradingView Indicators", href: "/category/tradingview-indicators", description: "Structure and liquidity tools" },
+  { label: "MT5 Indicators", href: "/category/mt5-indicators", description: "Context for MetaTrader workflows" },
+  { label: "Trading Tools", href: "/category/trading-tools", description: "Execution and risk utilities" },
+];
+
+const resourcesNav: DropdownItem[] = [
+  { label: "Performance", href: "/performance", description: "Evidence and sample records" },
+  { label: "Education", href: "/education", description: "Trading workflow guides" },
+  { label: "Documentation", href: "/documentation", description: "Installation and setup" },
+  { label: "Course", href: "/course", description: "ORB training modules" },
+  { label: "Strategy", href: "/strategy", description: "ORB learning and examples" },
+  { label: "FAQ", href: "/faq", description: "Common product questions" },
+];
+
+const companyNav: DropdownItem[] = [
+  { label: "About Luxfocuss", href: "/about" },
+  { label: "Contact support", href: "/contact" },
+  { label: "Affiliate program", href: "/affiliate" },
+];
 
 export function SiteHeader() {
   return (
@@ -15,50 +39,19 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center gap-1 text-sm text-slate-300 lg:flex">
-          <Link href="/" className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white">Home</Link>
+          <Link href="/" className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white">
+            Home
+          </Link>
 
-          <details className="group relative">
-            <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white [&::-webkit-details-marker]:hidden">
-              Products
-              <span className="text-[10px] text-slate-500 transition group-open:rotate-180">⌄</span>
-            </summary>
-            <div className="invisible absolute left-0 top-full z-50 mt-2 w-72 translate-y-1 rounded-2xl border border-white/10 bg-[#0b1118] p-2 opacity-0 shadow-2xl shadow-black/40 transition group-open:visible group-open:translate-y-0 group-open:opacity-100">
-              <Link href="/products" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">All products</div><div className="mt-1 text-xs text-slate-500">Browse the full catalog</div></Link>
-              <Link href="/category/ea-bots" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">EA Bots</div><div className="mt-1 text-xs text-slate-500">MT4 and MT5 automation</div></Link>
-              <Link href="/category/tradingview-indicators" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">TradingView Indicators</div><div className="mt-1 text-xs text-slate-500">Structure and liquidity tools</div></Link>
-              <Link href="/category/mt5-indicators" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">MT5 Indicators</div><div className="mt-1 text-xs text-slate-500">Context for MetaTrader workflows</div></Link>
-              <Link href="/category/trading-tools" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">Trading Tools</div><div className="mt-1 text-xs text-slate-500">Execution and risk utilities</div></Link>
-            </div>
-          </details>
+          <Dropdown label="Products" items={productsNav} widthClass="w-72" />
 
-          <Link href="/bundles" className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white">Bundles</Link>
+          <Link href="/bundles" className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white">
+            Bundles
+          </Link>
 
-          <details className="group relative">
-            <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white [&::-webkit-details-marker]:hidden">
-              Resources
-              <span className="text-[10px] text-slate-500 transition group-open:rotate-180">⌄</span>
-            </summary>
-            <div className="invisible absolute left-0 top-full z-50 mt-2 w-64 translate-y-1 rounded-2xl border border-white/10 bg-[#0b1118] p-2 opacity-0 shadow-2xl shadow-black/40 transition group-open:visible group-open:translate-y-0 group-open:opacity-100">
-              <Link href="/performance" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">Performance</div><div className="mt-1 text-xs text-slate-500">Evidence and sample records</div></Link>
-              <Link href="/education" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">Education</div><div className="mt-1 text-xs text-slate-500">Trading workflow guides</div></Link>
-              <Link href="/documentation" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">Documentation</div><div className="mt-1 text-xs text-slate-500">Installation and setup</div></Link>
-              <Link href="/course" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">Course</div><div className="mt-1 text-xs text-slate-500">ORB training modules</div></Link>
-              <Link href="/strategy" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">Strategy</div><div className="mt-1 text-xs text-slate-500">ORB learning and examples</div></Link>
-              <Link href="/faq" className="block rounded-xl px-4 py-3 hover:bg-white/5"><div className="font-medium text-white">FAQ</div><div className="mt-1 text-xs text-slate-500">Common product questions</div></Link>
-            </div>
-          </details>
+          <Dropdown label="Resources" items={resourcesNav} widthClass="w-64" />
 
-          <details className="group relative">
-            <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white [&::-webkit-details-marker]:hidden">
-              Company
-              <span className="text-[10px] text-slate-500 transition group-open:rotate-180">⌄</span>
-            </summary>
-            <div className="invisible absolute left-0 top-full z-50 mt-2 w-56 translate-y-1 rounded-2xl border border-white/10 bg-[#0b1118] p-2 opacity-0 shadow-2xl shadow-black/40 transition group-open:visible group-open:translate-y-0 group-open:opacity-100">
-              <Link href="/about" className="block rounded-xl px-4 py-3 font-medium text-white hover:bg-white/5">About Luxfocuss</Link>
-              <Link href="/contact" className="block rounded-xl px-4 py-3 font-medium text-white hover:bg-white/5">Contact support</Link>
-              <Link href="/affiliate" className="block rounded-xl px-4 py-3 font-medium text-white hover:bg-white/5">Affiliate program</Link>
-            </div>
-          </details>
+          <Dropdown label="Company" items={companyNav} widthClass="w-56" />
         </nav>
 
         <div className="ml-auto flex items-center gap-2">

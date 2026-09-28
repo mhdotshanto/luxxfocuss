@@ -1,44 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Luxfocuss — Digital Trading Platform & Marketplace
 
-## Getting Started
+Luxfocuss is a direct-to-consumer (D2C) marketplace and software licensing platform built for algorithmic and systematic financial traders.
 
-First, run the development server:
+---
 
+## 🛠️ Assessment Task 02 — Website Improvements & Engineering Rationale
+
+### Selected Major Improvement: Custom Reusable `Dropdown` Component & Navigation Overhaul
+
+* **Audit References**: [Section 1.6 (Unclosable Desktop Dropdown Menus)](./AUDIT.md#16-unclosable-desktop-dropdown-menus)
+* **Components Created / Modified**:
+  * [`src/components/dropdown.tsx`](./src/components/dropdown.tsx) *(New Reusable Dropdown Primitive)*
+  * [`src/components/site-header.tsx`](./src/components/site-header.tsx) *(Refactored to consume Dropdown)*
+  * [`src/app/layout.tsx`](./src/app/layout.tsx) *(Type safety & build fix)*
+
+#### 1. Problem Identified
+The initial prototype implemented desktop navigation using unmanaged HTML `<details>` and `<summary>` elements. Because native `<details>` lacks event listeners for clicks outside its bounding box:
+1. Opening a dropdown left it open permanently unless the user re-clicked the trigger.
+2. Opening multiple menus caused dropdowns to stack and obscure underlying page content.
+3. Menus did not close on `Escape` key press or upon route navigation.
+
+#### 2. Solution Implemented
+* **Modular Reusable Primitive**: Created a standalone `<Dropdown />` component configured with typed items, titles, subtitles, and custom widths.
+* **Outside-Click Detection**: Attached a global `mousedown` listener to detect clicks outside the component's `useRef` boundary, automatically closing the menu.
+* **Keyboard Accessibility (WCAG AA)**: Added `Escape` key listeners to dismiss menus and included ARIA attributes (`aria-expanded`, `aria-haspopup="true"`, `role="menu"`).
+* **Route Transition Auto-Dismiss**: Subscribed to Next.js `usePathname()` to ensure menus cleanly close upon navigation.
+* **Pixel-Perfect Theme Match**: Preserved 100% of the existing dark obsidian styling (`#0b1118`), neon emerald highlights (`#10b981`), borders (`border-white/10`), shadows, and typography.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* Node.js 18.18+ or 20+
+* npm, pnpm, or bun
+
+### Local Development
 ```bash
+# Install dependencies
+npm install
+
+# Run Prisma code generation
+npx prisma generate
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to explore the platform.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# luxfocuss
-
-## Deploy on Vercel
-
-1. Import this repository into Vercel.
-2. Add `DATABASE_URL` and `SESSION_COOKIE_NAME` in the project environment variables.
-3. Use a hosted PostgreSQL database for production. The local SQLite database is only for development because Vercel serverless storage is not persistent.
-4. Deploy with the default Next.js build settings. Prisma Client is generated automatically during install.
+## 🏗️ Technology Stack
+* **Framework**: Next.js 16.3.5 (App Router with React 19)
+* **Styling**: Tailwind CSS v4
+* **Database & ORM**: Prisma ORM with SQLite (dev) / PostgreSQL (prod)
+* **Auth**: Secure session cookies with native Node.js crypto

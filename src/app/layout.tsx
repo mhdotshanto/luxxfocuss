@@ -20,7 +20,11 @@ export const metadata: Metadata = {
     "Professional EA bots, TradingView indicators, MT5 tools, and premium trading systems built for disciplined traders.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full bg-[#05070b] text-white">
