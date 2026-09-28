@@ -31,11 +31,22 @@ export default async function ProductDetailPage({
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-black tracking-[-0.05em] text-white">{product.name}</h1>
-            <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-slate-300">
-              <span className="text-amber-300">★ {product.rating}</span>
-              <span>{product.strategy}</span>
-              <span>{product.timeframe}</span>
-              <span className={product.riskLevel === "High" ? "text-amber-300" : "text-emerald-300"}>{product.riskLevel} risk profile</span>
+            <div className="mt-3 sm:mt-4 flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto no-scrollbar text-[11px] sm:text-sm text-slate-300 whitespace-nowrap">
+              <span className="inline-flex items-center gap-1 rounded-md border border-amber-400/20 bg-amber-500/10 px-1.5 py-0.5 text-[10px] sm:text-xs font-semibold text-amber-300">
+                ★ {product.rating}
+              </span>
+              <span className="text-slate-600 text-[10px]">•</span>
+              <span className="text-slate-200">{product.strategy}</span>
+              <span className="text-slate-600 text-[10px]">•</span>
+              <span className="font-mono text-[10px] sm:text-xs text-slate-400">{product.timeframe}</span>
+              <span className="text-slate-600 text-[10px]">•</span>
+              <span className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] sm:text-xs font-medium ${
+                product.riskLevel === "High" 
+                  ? "border border-amber-400/20 bg-amber-500/10 text-amber-300" 
+                  : "border border-emerald-400/20 bg-emerald-500/10 text-emerald-300"
+              }`}>
+                {product.riskLevel} Risk
+              </span>
             </div>
 
             <div className="mt-8 space-y-8">
