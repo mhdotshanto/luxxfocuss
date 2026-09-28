@@ -2,8 +2,9 @@
 
 > **Candidate Technical Assessment Submission**  
 > **Target Project**: Luxfocuss Website & Digital Platform  
-> **Evaluation Reference**: [`Luxxfocuss_Developer_Hiring_Test.md`](./.docs/Luxxfocuss_Developer_Hiring_Test.md)  
-> **Technology Stack**: Next.js 16.3.5 (App Router, React 19), PostgreSQL 16, Prisma ORM, NextAuth.js v5 Beta (`auth.js`), Tailwind CSS v4, TypeScript
+> **Technology Stack**: Next.js 16.3.5 (App Router, React 19), PostgreSQL 16, Prisma ORM, NextAuth.js v5 Beta (`auth.js`), Tailwind CSS v4, TypeScript  
+> **Key Reports**: 📄 [Technical & UX Audit (`AUDIT.md`)](./AUDIT.md) 
+> 🗺️ [3-Month Strategic Product Roadmap (`ROADMAP.md`)](./ROADMAP.md)
 
 ---
 
