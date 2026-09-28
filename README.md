@@ -172,14 +172,41 @@ The administrative portal and backoffice surfaces of Luxfocuss are secured throu
    * Authenticated admins visiting `/admin/login` are automatically bounced to `/admin`.
    * Stale, suspended, or revoked sessions are evicted via the dedicated force-logout route handler [`src/app/api/admin/force-logout/route.ts`](./src/app/api/admin/force-logout/route.ts).
 
-3. **Why Server Actions Were Chosen Over Traditional REST APIs**:
-   | Architectural Factor | Next.js Server Actions (`'use server'`) | Traditional REST API Routes (`/api/...`) |
+3. **Architectural Decision: Why I Chose Server Actions Over Built-in Next.js API Routes**:
+
+   I fully acknowledge that **Next.js natively supports built-in API Route Handlers (`app/api/.../route.ts`)** directly within the App Router repository. Route Handlers are a powerful built-in feature of Next.js that I actively utilize for external integrations and webhooks (such as Stripe webhooks or public third-party REST consumers).
+
+   However, for our **first-party internal application data mutations** (such as contact inquiry submissions, administrative status transitions, and authentication flows), I made the deliberate engineering decision to use **Next.js Server Actions (`'use server'`)** instead of internal API route endpoints. 
+
+   Since this is a modern Next.js 16+ project powered by React 19, why constrain ourselves to treating Next.js like a traditional SPA wired to an internal REST layer when we can unlock the **full potential of Next.js's unified Server Actions runtime**?
+
+   Moving internal mutations 100% to Server Actions provides decisive engineering advantages:
+
+   - **1. Harnessing the True Power of Next.js & React 19 Concurrency**:
+     Server Actions are Next.js's native Remote Procedure Call (RPC) protocol. They integrate directly with React 19's `useActionState`, `useTransition`, and `useOptimistic`. Instead of writing complex `useState` / `useEffect` / `AbortController` boilerplate to manage network loading and error states, I can leverage React 19's first-class transition hooks to deliver seamless, optimistic UI feedback and zero-glitch loading spinners.
+
+   - **2. 100% End-to-End Compile-Time Type Safety (Zero Contract Drift)**:
+     With traditional REST routes (`fetch('/api/contact', { ... })`), the type relationship between the client request and server handler is physically severed—requiring duplicate interface definitions or brittle OpenAPI generation. By utilizing Server Actions, arguments, return payloads, and field validation error maps are **inferred directly at compile-time** from a single shared Zod schema. If I change a database column or form validation rule, TypeScript immediately flags mismatches across the entire codebase at build time.
+
+   - **3. Zero Client-Side JavaScript Bundle Bloat**:
+     Traditional REST APIs force developers to bundle HTTP client libraries (`axios`, custom `fetch` wrappers, API route constant registries, query parameter builders, and response parsing utilities) directly into the browser bundle. With Server Actions, Next.js compiles mutations into lightweight cryptographic RPC identifiers. The validation logic, Prisma database execution, and server algorithms remain **strictly on the server**, keeping client JavaScript payloads lean and maximizing Core Web Vitals (LCP, INP).
+
+   - **4. Co-located Atomic Cache Coherence (`revalidatePath` / `revalidateTag`)**:
+     In REST APIs, data mutation is disconnected from the rendering tree: after a `POST` or `PATCH` request finishes, the frontend must manually invalidate client-side caches (SWR, TanStack Query, or manual state sync), which frequently causes race conditions and stale UI states. With Server Actions, cache revalidation is **co-located and atomic**: calling `revalidatePath('/admin/inquiries')` on the server purges stale cache and streams updated Server Component HTML back to the client in the very same network roundtrip.
+
+   - **5. Native Security & Minimal Attack Surface**:
+     Open REST endpoints expose public HTTP surfaces requiring manual Cross-Origin Resource Sharing (CORS) setup, custom rate-limiting middleware, and anti-CSRF token verification. Next.js Server Actions automatically enforce strict `Origin` and `Host` header verification, run exclusively within secure server contexts, and prevent direct scraping or probing of internal database mutation routes.
+
+   #### Architectural Comparison:
+
+   | Dimension | Next.js Server Actions (`'use server'`) | Traditional REST API Routes (`/api/...`) |
    | :--- | :--- | :--- |
-   | **End-to-End Type Safety** | **100% Compile-Time**: Single TypeScript types inferred directly from shared Zod schema across client & server. | **Fragmented**: Requires duplicate client request wrappers, manual serialization, and separate response interfaces. |
-   | **Boilerplate & Plumbing** | **Zero Fetch Boilerplate**: Executed like native async functions without manual `fetch()`, URL builders, or status checkers. | **High Boilerplate**: Requires writing, maintaining, and error-handling manual `fetch()` calls. |
-   | **CSRF & Transport Security** | **Built-in Protection**: Next.js automatically validates server action tokens and origin headers to block Cross-Site Request Forgery. | **Manual Configuration**: Requires custom CSRF tokens, custom headers, and CORS policy management. |
-   | **React 19 State Integration** | **Native Hooks**: Integrates seamlessly with `useTransition`, `isSubmitting`, and optimistic UI updates without extra state machines. | Requires complex `useState` / `useEffect` / `AbortController` boilerplate for loading and cancellation. |
-   | **Colocation & RPC Efficiency** | **Direct DB Execution**: Runs directly on the server runtime with direct access to Prisma and secure environment secrets. | Incurs HTTP serialization overhead and additional routing layers. |
+   | **Type Safety** | **100% Compile-Time**: Direct TypeScript inference across client, server, and Prisma | **Fragmented**: Disconnected contracts; requires manual type casting |
+   | **Client Bundle Impact** | **Zero Client Bloat**: Mutation & validation code stays 100% on the server | **Heavy**: Bundles HTTP clients, API constants, and JSON serializers |
+   | **Cache Synchronization** | **Atomic Revalidation**: `revalidatePath()` guarantees fresh SSR data in 1 roundtrip | **Manual & Error-Prone**: Requires client-side SWR/Query invalidation waterfalls |
+   | **CSRF & Transport Security** | **Built-in Protection**: Next.js automatically validates Origin/Host headers and action IDs | **Manual Overhead**: Requires custom CSRF tokens, CORS headers, and route protection |
+   | **React 19 Synergy** | **Native Integration**: Works directly with `useActionState`, `useTransition`, and `useOptimistic` | Requires manual `useState` / `useEffect` / `AbortController` boilerplate |
+   | **Execution Overhead** | **Direct Server RPC**: Direct connection to Prisma ORM without HTTP serialization | Incurs intermediate HTTP parsing, routing, and serialization layers |
 
 4. **Precision Form Validation & Error Mapping Standards**:
    * **Single Source of Truth**: Defined a single reusable Zod schema in [`src/lib/validations/auth.ts`](./src/lib/validations/auth.ts) executed on both the client (via `@hookform/resolvers/zod`) and the server (via `adminLoginSchema.safeParse()`).
