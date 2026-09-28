@@ -251,16 +251,18 @@ export default function Home() {
             <h2 className="mt-3 text-2xl sm:text-3xl font-bold text-white">From purchase to live execution</h2>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               "Choose Your Tool",
               "Complete Checkout",
               "Receive Your License",
               "Download & Activate",
             ].map((step, index) => (
-              <div key={step} className="rounded-3xl border border-white/10 bg-white/[0.02] p-5 sm:p-6">
-                <div className="mb-4 sm:mb-5 text-2xl sm:text-3xl font-black text-emerald-300">0{index + 1}</div>
-                <div className="text-lg sm:text-xl font-semibold text-white">{step}</div>
+              <div key={step} className="flex items-center gap-3.5 rounded-2xl border border-white/10 bg-white/[0.02] p-4 transition hover:border-emerald-400/30 hover:bg-white/[0.04] sm:rounded-3xl sm:p-5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 font-mono text-sm font-bold text-emerald-300 sm:h-10 sm:w-10 sm:text-base">
+                  0{index + 1}
+                </div>
+                <div className="text-base font-semibold text-white sm:text-lg">{step}</div>
               </div>
             ))}
           </div>
@@ -281,9 +283,11 @@ export default function Home() {
             "Continuous Updates",
             "Trader Support",
           ].map((item) => (
-            <div key={item} className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
-              <div className="mb-4 h-10 w-10 rounded-xl bg-emerald-500/10 text-center text-lg leading-10 text-emerald-300">✓</div>
-              <h3 className="text-lg sm:text-xl font-semibold text-white">{item}</h3>
+            <div key={item} className="flex items-center gap-3.5 rounded-2xl border border-white/10 bg-slate-950/60 p-4 transition hover:border-emerald-400/30 sm:rounded-3xl sm:p-5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-400/20 bg-emerald-500/10 text-base font-bold text-emerald-300 sm:h-10 sm:w-10 sm:text-lg">
+                ✓
+              </div>
+              <h3 className="text-base font-semibold text-white sm:text-lg">{item}</h3>
             </div>
           ))}
         </div>
