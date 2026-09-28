@@ -70,7 +70,7 @@ The Luxfocuss platform was engineered and verified to deliver a flawless, high-p
 
 ### 2. Multi-Viewport Automated Verification
 
-Automated headless browser testing was executed against all 8 target viewports across 33 key routes using Playwright (`test-responsive.mjs`):
+Automated headless browser testing was executed against all 8 target viewports across 33 key routes using Playwright (`tests/test-responsive.mjs`):
 
 | Target Viewport | Screen Width | Tested Device Category | Status |
 | :--- | :---: | :--- | :---: |

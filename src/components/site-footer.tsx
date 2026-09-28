@@ -51,9 +51,11 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 px-4 py-5 text-xs leading-6 text-slate-500 sm:px-6 sm:text-sm lg:flex-row lg:px-8">
-          <p>© 2026 Luxfocuss. Demo data only. Use for evaluation.</p>
-          <p>Trading leveraged financial products involves significant risk and may not be suitable for all investors.</p>
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center text-center gap-2 px-4 py-6 text-xs leading-relaxed text-slate-400 sm:px-6 sm:text-sm lg:px-8">
+          <p className="font-medium text-slate-400">© 2026 Luxfocuss. Demo data only. Use for evaluation.</p>
+          <p className="max-w-3xl text-[11px] leading-5 text-slate-500 sm:text-xs">
+            Trading leveraged financial products involves significant risk and may not be suitable for all investors.
+          </p>
         </div>
       </div>
     </footer>

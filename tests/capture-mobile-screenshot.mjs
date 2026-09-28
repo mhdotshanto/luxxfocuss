@@ -12,7 +12,7 @@ async function captureAll() {
   await hamburger.click();
   await mobilePage.waitForTimeout(300);
 
-  const productsBtn = mobilePage.locator('button:has-text("Products")');
+  const productsBtn = mobilePage.locator('div[role="dialog"] button:has-text("Products")');
   await productsBtn.click();
   await mobilePage.waitForTimeout(300);
 
