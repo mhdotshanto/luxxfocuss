@@ -71,8 +71,8 @@ export default function ProductsPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard key={product.slug} product={product} />
+        {products.map((product, index) => (
+          <ProductCard key={`${index}`} product={product} />
         ))}
       </div>
 

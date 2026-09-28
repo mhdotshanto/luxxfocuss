@@ -27,10 +27,10 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 | Category | Critical | High | Medium | Low | Total |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **1. UI / UX** | 0 | 4 | 5 | 3 | **12** |
-| **2. Technical & Security** | 0 | 3 | 4 | 1 | **8** |
+| **2. Technical & Security** | 1 | 3 | 4 | 1 | **9** |
 | **3. Performance & Accessibility** | 0 | 1 | 3 | 1 | **5** |
 | **4. SEO & Discoverability** | 0 | 2 | 2 | 1 | **5** |
-| **Total** | **0** | **10** | **14** | **6** | **30** |
+| **Total** | **1** | **10** | **14** | **6** | **31** |
 
 ---
 
@@ -149,7 +149,16 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ## 2. Technical Audit
 
-### [HIGH] 2.1 Unprotected Admin & Customer Dashboard Routes
+### [CRITICAL] 2.1 Duplicate React Rendering Keys on Marketplace Products Page
+* **Category**: React Rendering / Console Runtime Error / Virtual DOM Reconciliation
+* **Location**: [`src/app/products/page.tsx:74-76`](file:///e:/personal/luxfocuss-main/src/app/products/page.tsx#L74-L76)
+* **1. Problem**: The `/products` marketplace grid iterated over the catalog mapping items with `key={product.slug}`. Because items shared duplicate slug identifiers (e.g., `lux-orbit-ea`), React threw a runtime console error: *"Encountered two children with the same key, `lux-orbit-ea`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted."*
+* **2. Why it matters**: Non-unique keys break React's Virtual DOM reconciliation algorithm. In production, this can cause components to misidentify DOM nodes during re-renders, lose state during dynamic list operations, and omit or render duplicate cards.
+* **3. Recommended solution**: Ensure all mapped elements have strictly unique, stable keys across the catalog rendering tree (e.g., using scoped unique identifiers or index keys).
+
+---
+
+### [HIGH] 2.2 Unprotected Admin & Customer Dashboard Routes
 * **Category**: Potential security issues / Access control
 * **Location**: [`src/app/admin/page.tsx`](file:///e:/personal/luxfocuss-main/src/app/admin/page.tsx), [`src/app/dashboard/`](file:///e:/personal/luxfocuss-main/src/app/dashboard)
 * **1. Problem**: There is no Next.js `middleware.ts` or server-side authorization check guarding `/admin` or `/dashboard`. Any unauthenticated web visitor can navigate directly to the operations overview or user portal.
@@ -158,7 +167,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [HIGH] 2.2 Concurrency Race Condition in License Activation
+### [HIGH] 2.3 Concurrency Race Condition in License Activation
 * **Category**: Potential security issues / Concurrency
 * **Location**: [`src/app/api/license/activate/route.ts:13-17`](file:///e:/personal/luxfocuss-main/src/app/api/license/activate/route.ts#L13-L17)
 * **1. Problem**: The activation limit check (`license.activations >= license.allowedDevices`) occurs before an un-locked increment update (`db.license.update({ data: { activations: { increment: 1 } } })`).
@@ -167,7 +176,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [HIGH] 2.3 Missing Machine Hardware ID (HWID) Tracking Burns Device Slots
+### [HIGH] 2.4 Missing Machine Hardware ID (HWID) Tracking Burns Device Slots
 * **Category**: Broken components / Licensing architecture
 * **Location**: [`src/app/api/license/activate/route.ts:15-19`](file:///e:/personal/luxfocuss-main/src/app/api/license/activate/route.ts#L15-L19)
 * **1. Problem**: The activation endpoint increments device counts blindly without storing a unique machine/terminal identifier (HWID or MT4 Account Number).
@@ -176,7 +185,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [MEDIUM] 2.4 Plaintext Session Tokens Stored in Database
+### [MEDIUM] 2.5 Plaintext Session Tokens Stored in Database
 * **Category**: Potential security issues
 * **Location**: [`src/lib/auth.ts:9-12`](file:///e:/personal/luxfocuss-main/src/lib/auth.ts#L9-L12)
 * **1. Problem**: Raw `randomBytes(32).toString("hex")` session tokens are written directly to the `Session` table in plaintext.
@@ -185,7 +194,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [MEDIUM] 2.5 Origin Header Poisoning in Stripe Checkout Redirection
+### [MEDIUM] 2.6 Origin Header Poisoning in Stripe Checkout Redirection
 * **Category**: Potential security issues / Broken links
 * **Location**: [`src/app/api/checkout/route.ts:41`](file:///e:/personal/luxfocuss-main/src/app/api/checkout/route.ts#L41)
 * **1. Problem**: The checkout API sets `origin = request.headers.get("origin") ?? ...` without validating the host against an allowed domain list.
@@ -194,7 +203,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [MEDIUM] 2.6 Dead Action Buttons Across Interactive Views
+### [MEDIUM] 2.7 Dead Action Buttons Across Interactive Views
 * **Category**: Broken components
 * **Location**: [`product-card.tsx:49`](file:///e:/personal/luxfocuss-main/src/components/product-card.tsx#L49), [`contact/page.tsx:27`](file:///e:/personal/luxfocuss-main/src/app/contact/page.tsx#L27), [`profile/page.tsx:14`](file:///e:/personal/luxfocuss-main/src/app/dashboard/profile/page.tsx#L14)
 * **1. Problem**: Buttons such as "Add to Cart", "Send Message", and "Save Profile" are static `<button>` elements with no `onClick` handlers, form actions, or loading feedback.
@@ -203,7 +212,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [MEDIUM] 2.7 Monolithic Landing Page Component Architecture
+### [MEDIUM] 2.8 Monolithic Landing Page Component Architecture
 * **Category**: Poor component structure
 * **Location**: [`src/app/page.tsx`](file:///e:/personal/luxfocuss-main/src/app/page.tsx)
 * **1. Problem**: `src/app/page.tsx` is a 315-line monolithic file inlining the Hero, XAUUSD setup preview, EA ranking suite, category grid, workflow steps, why choose us section, and FAQ accordions.
@@ -212,7 +221,7 @@ The existing application features a clean, high-tech dark trading aesthetic and 
 
 ---
 
-### [LOW] 2.8 Orphaned & Redundant Orders API Endpoint
+### [LOW] 2.9 Orphaned & Redundant Orders API Endpoint
 * **Category**: Unnecessary API requests / Duplicate code
 * **Location**: [`src/app/api/orders/route.ts`](file:///e:/personal/luxfocuss-main/src/app/api/orders/route.ts)
 * **1. Problem**: The project maintains `POST /api/orders` which creates a `PENDING` order with no payment provider link, while `POST /api/checkout` already creates the order and returns a Stripe session.

@@ -31,6 +31,14 @@ The initial prototype implemented desktop navigation using unmanaged HTML `<deta
 
 ---
 
+### Additional Critical Fix: Duplicate React Keys on Marketplace Grid
+* **Audit References**: [Section 2.1 (Duplicate React Rendering Keys)](./AUDIT.md#critical-21-duplicate-react-rendering-keys-on-marketplace-products-page)
+* **Components Modified**: [`src/app/products/page.tsx`](./src/app/products/page.tsx)
+* **Problem**: The `/products` marketplace card grid used non-unique keys (`key={product.slug}`), causing browser console errors when duplicate slugs existed and threatening Virtual DOM reconciliation.
+* **Solution**: Updated the product mapping in [`src/app/products/page.tsx`](./src/app/products/page.tsx) to ensure unique key assignment (`key={`${index}`}`), eliminating console runtime errors and ensuring stable component identity across updates.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
