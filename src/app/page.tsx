@@ -4,9 +4,13 @@ import { ProductCard } from "@/components/product-card";
 
 function MetricPill({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-      <div className="text-[10px] uppercase tracking-[0.3em] text-slate-400">{label}</div>
-      <div className="mt-2 text-xl font-semibold text-white">{value}</div>
+    <div className="rounded-xl border border-white/10 bg-slate-950/60 p-2 sm:rounded-2xl sm:p-4">
+      <div className="text-[7.5px] min-[390px]:text-[8.5px] sm:text-[10px] uppercase tracking-tight min-[390px]:tracking-normal sm:tracking-[0.12em] text-slate-400 whitespace-nowrap">
+        {label}
+      </div>
+      <div className="mt-1 text-base font-bold text-white sm:mt-2 sm:text-xl sm:font-semibold">
+        {value}
+      </div>
     </div>
   );
 }
@@ -50,7 +54,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div className="mt-10 grid max-w-xl gap-3 grid-cols-1 sm:grid-cols-3">
+              <div className="mt-8 grid max-w-xl grid-cols-3 gap-2 sm:mt-10 sm:gap-3">
                 <MetricPill label="EA suite products" value={`${eaProductSpecs.length}`} />
                 <MetricPill label="Supported platforms" value="3" />
                 <MetricPill label="Support response" value="1 day" />

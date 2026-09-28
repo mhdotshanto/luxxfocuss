@@ -65,7 +65,16 @@ The Luxfocuss platform was engineered and verified to deliver a flawless, high-p
    * **Admin & Trading Metrics**: Normalized chart bar heights in [`src/app/admin/page.tsx`](./src/app/admin/page.tsx) to prevent container piercing and wrapped key performance indicators into responsive auto-fit grids.
    * **Checkout & Order Flow**: Optimized order summary card layouts to stack gracefully on smaller viewports with full-width action buttons.
 
-5. **Professional Copy & Global Consistency**:
+5. **Hero Metric Cards Single-Line Layout & Label Balance**:
+   * **Why Changed & Problems Identified**:
+     1. *Desktop Text Breaking*: On Desktop (`1440px` and `1280px`), the label `"SUPPORTED PLATFORMS"` had extreme letter tracking (`tracking-[0.3em]`) which caused it to exceed its container width and split into two lines (`SUPPORTED` / `PLATFORMS`), creating awkward visual height mismatch with neighboring cards.
+     2. *Mobile Stacking & Vertical Clutter*: On mobile (`375px`–`430px`), the cards previously rendered with `grid-cols-1`, stacking vertically into 3 large, mostly empty dark boxes that pushed hero content down.
+   * **How Fixed**:
+     1. Unified the grid into a perpetual 3-column layout (`grid-cols-3 gap-2 sm:gap-3`) across all viewports.
+     2. Calibrated label typography (`text-[7.5px] min-[390px]:text-[8.5px] sm:text-[10px]` with `tracking-tight sm:tracking-[0.12em]` and `whitespace-nowrap`) and scaled card padding (`p-2 sm:p-4`).
+   * **Impact**: All 3 metric cards render side-by-side in **one balanced horizontal row** across both desktop and compact mobile devices with zero text breaking, zero awkward stacking, and zero layout overflow.
+
+6. **Professional Copy & Global Consistency**:
    * Replaced informal draft notes with institutional-grade English copy across educational, course, and strategy blueprints.
 
 ### 2. Multi-Viewport Automated & Manual Verification
