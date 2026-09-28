@@ -21,11 +21,13 @@ The initial prototype implemented desktop navigation using unmanaged HTML `<deta
 3. Menus did not close on `Escape` key press or upon route navigation.
 
 #### 2. Solution Implemented
-* **Modular Reusable Primitive**: Created a standalone `<Dropdown />` component configured with typed items, titles, subtitles, and custom widths.
-* **Outside-Click & Scroll Detection**: Attached global `mousedown` and passive `scroll` listeners to auto-dismiss menus on background clicks or page scrolling.
-* **Keyboard Accessibility (WCAG AA)**: Added `Escape` key listeners to dismiss menus and included ARIA attributes (`aria-expanded`, `aria-haspopup="true"`, `role="menu"`).
-* **Route Transition & Active State Tracking**: Automatically closes upon route transitions via `usePathname()`, and highlights active items and parent triggers with emerald indicators.
-* **Pixel-Perfect Theme Match**: Preserved 100% of the existing dark obsidian styling (`#0b1118`), neon emerald highlights (`#10b981`), borders (`border-white/10`), shadows, and typography.
+* **Modular Reusable Primitive**: Created a standalone `<Dropdown />` component configured with typed items, titles, subtitles, custom widths, and customizable trigger interaction (`hover` by default or `click`).
+* **Hover Intent Buffer (120ms)**: Added a graceful 120ms intent buffer on mouse leave to prevent accidental closure when moving between trigger button and menu items, while retaining click/tap and keyboard support.
+* **Outside-Click & Passive Scroll Dismissal**: Attached global `mousedown` and passive `window.scroll` listeners to auto-dismiss menus smoothly on background interaction or page scrolling.
+* **Zero Layout Shift / Anti-Shake**: Normalized typography weights, isolated rotating chevron dimensions, and set uniform base borders to prevent layout shift or jitter on active states.
+* **Route Transition & Clean Active State Tracking**: Automatically closes upon route transitions via `usePathname()`, highlighting active menu items with emerald accents and active parent triggers with sleek glassy backgrounds (`bg-white/10`).
+* **Keyboard & ARIA Accessibility (WCAG AA)**: Added `Escape` key listeners and complete ARIA attributes (`aria-expanded`, `aria-haspopup="true"`, `role="menu"`, `role="menuitem"`).
+* **Pixel-Perfect Theme Match**: Preserved 100% of the existing dark obsidian styling (`#0b1118`), emerald highlights (`#10b981`), borders (`border-white/10`), shadows, and typography.
 
 ---
 

@@ -16,6 +16,7 @@ export interface DropdownProps {
   items: DropdownItem[];
   widthClass?: string;
   align?: "left" | "right";
+  trigger?: "hover" | "click";
 }
 
 export function Dropdown({
@@ -23,9 +24,11 @@ export function Dropdown({
   items,
   widthClass = "w-72",
   align = "left",
+  trigger = "hover",
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
   // Check if current route matches any child item
@@ -35,6 +38,13 @@ export function Dropdown({
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   // Handle outside clicks, keyboard Escape, and passive onScroll auto-close
   useEffect(() => {
@@ -70,13 +80,39 @@ export function Dropdown({
     };
   }, [isOpen]);
 
+  // Hover event handlers with 120ms intent buffer
+  function handleMouseEnter() {
+    if (trigger === "hover") {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setIsOpen(true);
+    }
+  }
+
+  function handleMouseLeave() {
+    if (trigger === "hover") {
+      timeoutRef.current = setTimeout(() => {
+        setIsOpen(false);
+      }, 120);
+    }
+  }
+
+  function handleButtonClick() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen((prev) => !prev);
+  }
+
   const alignmentClass = align === "right" ? "right-0" : "left-0";
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div
+      ref={dropdownRef}
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button
         type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={handleButtonClick}
         aria-expanded={isOpen}
         aria-haspopup="true"
         className={`flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 ${
